@@ -2,21 +2,21 @@
   "use strict";
 
   angular.module("UserManagement", []).controller("UserCtrl", UserCtrl);
-  // .controller("addUserCtrl", addUserCtrl);
 
   UserCtrl.$inject = ["$scope", "$http"];
 
   function UserCtrl($scope, $http) {
+    $scope.success = "hide";
+    $scope.show = false;
+
     $scope.getUsers = function () {
-      $http({
-        method: "GET",
-        url: "https://631e9e7f58a1c0fe9f5494b8.mockapi.io/users",
-      }).then(
+      $http.get("https://631e9e7f58a1c0fe9f5494b8.mockapi.io/users").then(
         function (response) {
           $scope.users = response.data;
+          console.log(response.data);
         },
-        function () {
-          alert("Error in getting records");
+        function (error) {
+          console.log(error);
         }
       );
     };
@@ -28,19 +28,55 @@
           .delete("https://631e9e7f58a1c0fe9f5494b8.mockapi.io/users/" + id)
           .then(function (response) {
             $scope.getUsers();
+            $scope.success = "show";
+            $scope.show = true;
+            $scope.successMessage = "Delete Contact Successfully";
           });
       }
     };
 
-    // $scope.addUser = function () {
-    //   modalInstance = $modal.open({
-    //     animation: false,
-    //     templateUrl: "AddUser.html",
-    //     controller: "addUserCtrl",
-    //     scope: $scope,
-    //     size: "",
-    //     resolve: {},
-    //   });
-    // };
+    $scope.openModal = function () {
+      var modal_popup = angular.element("#basicModal");
+      modal_popup.modal("show");
+    };
+
+    $scope.closeModal = function () {
+      var modal_popup = angular.element("#basicModal");
+      modal_popup.modal("hide");
+    };
+
+    $scope.addUser = function () {
+      $scope.modalTitle = "Add Contact";
+      $scope.submit_button = "Create";
+      $scope.openModal();
+    };
+
+    $scope.submitForm = function () {
+      $http({
+        method: "POST",
+        url: "https://631e9e7f58a1c0fe9f5494b8.mockapi.io/users",
+        data: {
+          name: $scope.name,
+          address: $scope.address,
+          phone: $scope.phone,
+          email: $scope.email,
+        },
+      }).then(
+        function (response) {
+          $scope.getUsers();
+          $scope.closeModal();
+          $scope.success = "show";
+          $scope.show = true;
+          $scope.successMessage = "Create Contact Successfully";
+        },
+        function (error) {
+          console.log(error);
+        }
+      );
+    };
+
+    $scope.selectUser = function (user) {
+      $scope.selectedUser = user;
+    };
   }
 })();
