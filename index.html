@@ -18,25 +18,38 @@
 
     <title>Contact Management</title>
   </head>
-  <body ng-controller="UserCtrl" ng-init="getUsers()()">
+  <body ng-controller="UserCtrl">
     <div class="container">
       <h2>Users Management</h2>
+      <div
+        ng-show="error"
+        class="alert alert-danger alert-dismissible mt-3"
+        role="alert"
+      >
+        <p>{{ error }}</p>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button
           class="btn btn-primary me-md-2"
           type="button"
-          ng-click="addUser()"
+          ng-click="showadd()"
         >
           Create New User
         </button>
       </div>
       <div
-        class="alert alert-success alert-dismissible fade mt-3"
-        ng-class="success"
+        class="alert alert-success alert-dismissible mt-3"
         ng-show="show"
         role="alert"
       >
-        {{successMessage}}
+        {{ show }}
         <button
           type="button"
           class="btn-close"
@@ -71,14 +84,14 @@
                 <button
                   type="button"
                   class="btn btn-sm btn-outline-info"
-                  ng-click="selectUser(user)"
+                  ng-click="edit(user)"
                 >
                   <i class="bi bi-pencil"></i>
                 </button>
                 <button
                   type="button"
                   class="btn btn-sm btn-outline-danger"
-                  ng-click="deleteUser(user.id)"
+                  ng-click="delete(user)"
                 >
                   <i class="bi bi-trash"></i>
                 </button>
@@ -89,13 +102,24 @@
       </table>
     </div>
 
-    <!----- Modal Create Contact ----->
-    <div class="modal fade" id="createModal" tabindex="-1">
+    <!------     Modal     ------>
+    <div
+      class="modal fade"
+      id="userModel"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
-          <form method="post" ng-submit="submitForm()">
+          <form class="form-horizontal" role="form" name="adduserform">
             <div class="modal-header">
-              <h5 class="modal-title">Create Contact</h5>
+              <h4 class="modal-title" id="myModalLabel" ng-hide="editMode">
+                Add Contact
+              </h4>
+              <h4 class="modal-title" id="myModalLabel" ng-show="editMode">
+                Edit Contact
+              </h4>
               <button
                 type="button"
                 class="btn-close"
@@ -110,9 +134,9 @@
                   <input
                     type="text"
                     id="name"
-                    required="required"
+                    required
                     class="form-control"
-                    ng-model="name"
+                    ng-model="user.name"
                   />
                 </div>
               </div>
@@ -124,7 +148,7 @@
                     id="address"
                     required="required"
                     class="form-control"
-                    ng-model="address"
+                    ng-model="user.address"
                   />
                 </div>
               </div>
@@ -136,7 +160,7 @@
                     id="phone"
                     required="required"
                     class="form-control"
-                    ng-model="phone"
+                    ng-model="user.phone"
                   />
                 </div>
               </div>
@@ -148,99 +172,38 @@
                     id="email"
                     required="required"
                     class="form-control"
-                    ng-model="email"
+                    ng-model="user.email"
                   />
                 </div>
               </div>
             </div>
             <div class="modal-footer">
-              <button
-                type="submit"
-                name="submit"
-                id="submit"
-                class="btn btn-info"
-              >
-                Create
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <!----- Modal Edit Contact ----->
-    <div class="modal fade" id="editModal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <form method="post" ng-submit="editForm()">
-            <div class="modal-header">
-              <h5 class="modal-title">Edit Contact</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="name" class="form-label">Name</label>
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <span ng-hide="editMode">
                   <input
-                    type="text"
-                    id="name"
-                    required="required"
-                    class="form-control"
-                    ng-model="selectedUser.name"
+                    type="submit"
+                    class="btn btn-primary"
+                    value="Create"
+                    ng-disabled="adduserform.$invalid"
+                    ng-click="add()"
                   />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="address" class="form-label">Address</label>
+                </span>
+                <span ng-show="editMode">
                   <input
-                    type="text"
-                    id="address"
-                    required="required"
-                    class="form-control"
-                    ng-model="selectedUser.address"
+                    type="submit"
+                    class="btn btn-primary"
+                    value="Edit"
+                    ng-disabled="adduserform.$invalid"
+                    ng-click="update()"
                   />
-                </div>
+                </span>
+                <input
+                  type="button"
+                  class="btn btn-secondary"
+                  value="Cancel"
+                  ng-click="cancel()"
+                />
               </div>
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="phone" class="form-label">Phone Number</label>
-                  <input
-                    type="text"
-                    id="phone"
-                    required="required"
-                    class="form-control"
-                    ng-model="selectedUser.phone"
-                  />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="email" class="form-label">Email</label>
-                  <input
-                    type="text"
-                    id="email"
-                    required="required"
-                    class="form-control"
-                    ng-model="selectedUser.email"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="submit"
-                name="submit"
-                id="submit"
-                class="btn btn-info"
-              >
-                Edit
-              </button>
             </div>
           </form>
         </div>
@@ -254,6 +217,7 @@
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-animate/1.8.3/angular-animate.min.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
