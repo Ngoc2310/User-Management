@@ -21,20 +21,6 @@
   <body ng-controller="UserCtrl">
     <div class="container">
       <h2>Users Management</h2>
-      <div
-        ng-show="error"
-        class="alert alert-danger alert-dismissible mt-3"
-        role="alert"
-      >
-        <p>{{ error }}</p>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="alert"
-          aria-label="Close"
-        ></button>
-      </div>
-
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button
           class="btn btn-primary me-md-2"
@@ -44,19 +30,9 @@
           Create New User
         </button>
       </div>
-      <div
-        class="alert alert-success alert-dismissible mt-3"
-        ng-show="show"
-        role="alert"
-      >
-        {{ show }}
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="alert"
-          aria-label="Close"
-        ></button>
-      </div>
+
+      <alert-message alert="alertMessage"></alert-message>
+
       <table class="table table-hover">
         <thead>
           <tr>
@@ -217,7 +193,7 @@
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-animate/1.8.3/angular-animate.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-animate/1.8.3/angular-animate.min.js"></script> -->
     <script src="app.js"></script>
   </body>
 </html>
