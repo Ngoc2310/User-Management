@@ -7,6 +7,7 @@
 
   // /blogs?page=1&limit=1
   // /blogs?search=blog1
+  // /blogs?sortBy=createdAt&order=desc
 
   app.factory("userFactory", function ($http) {
     return {
@@ -52,29 +53,34 @@
     $scope.pageNumber = 0;
 
     $scope.search = "";
+
+    $scope.sortby = "name";
     //get all users
     $scope.getAll = function () {
-      userFactory.getUsers($scope.currentPage, $scope.search).then(
-        function (response) {
-          $scope.users = response.data.items;
+      userFactory
+        .getUsers($scope.currentPage, $scope.search, $scope.sortby)
+        .then(
+          function (response) {
+            $scope.users = response.data.items;
 
-          $scope.pageNumber = userFactory.totalPage(5, response.data.count);
+            $scope.pageNumber = userFactory.totalPage(5, response.data.count);
 
-          console.log(response.data);
-        },
-        function () {
-          $scope.alertText = "An Error has occured while Loading user! ";
-          $scope.alertType = "danger";
+            console.log(response.data);
+          },
+          function () {
+            $scope.alertText = "An Error has occured while Loading user! ";
+            $scope.alertType = "danger";
 
-          $scope.alertMessage = {
-            type: $scope.alertType,
-            text: $scope.alertText,
-            delay: $scope.secondsDelay,
-          };
-        }
-      );
+            $scope.alertMessage = {
+              type: $scope.alertType,
+              text: $scope.alertText,
+              delay: $scope.secondsDelay,
+            };
+          }
+        );
     };
 
+    // click button to refresh the search bar
     $scope.refresh = function () {
       $scope.search = "";
       $scope.getAll();
