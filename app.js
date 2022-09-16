@@ -2,15 +2,15 @@
   "use strict";
 
   var app = angular.module("UserManagement", []);
-  // .controller("UserCtrl", UserCtrl)
-  // .factory("userFactory", userFactory);
   var api = "https://631e9e7f58a1c0fe9f5494b8.mockapi.io/users";
   var url = "";
 
+  // /blogs?page=1&limit=1
+
   app.factory("userFactory", function ($http) {
     return {
-      getUsers: function () {
-        url = api;
+      getUsers: function (currentPage) {
+        url = api + "?page=" + currentPage + "&limit=5";
         return $http.get(url);
       },
 
@@ -33,6 +33,9 @@
         url = api + "/" + user.id;
         return $http.put(url, user);
       },
+      totalPage: function (pageSize, totalRecord) {
+        return Math.ceil(totalRecord / pageSize);
+      },
     };
   });
 
@@ -42,29 +45,41 @@
     $scope.editMode = false;
 
     $scope.alertMessage = null;
-    $scope.alertType = "success";
     $scope.secondsDelay = 2;
-    $scope.alertText = "";
+
+    $scope.currentPage = 1;
+    $scope.pageNumber = 0;
 
     //get all users
     $scope.getAll = function () {
-      userFactory.getUsers().then(
+      userFactory.getUsers($scope.currentPage).then(
         function (response) {
-          $scope.users = response.data;
+          $scope.users = response.data.items;
+
+          $scope.pageNumber = userFactory.totalPage(5, response.data.count);
           console.log(response.data);
+          console.log($scope.pageNumber);
         },
-        function (response) {
-          $scope.error =
-            "An Error has occured while Loading users! " +
-            response.ExceptionMessage;
+        function () {
+          $scope.alertText = "An Error has occured while Loading user! ";
+          $scope.alertType = "danger";
+
+          $scope.alertMessage = {
+            type: $scope.alertType,
+            text: $scope.alertText,
+            delay: $scope.secondsDelay,
+          };
         }
       );
+    };
+
+    $scope.range = function (n) {
+      return new Array(n);
     };
 
     //add user
     $scope.add = function () {
       var currentUser = this.user;
-      $scope.alertText = "Create Contact Successfully";
 
       if (
         currentUser != null &&
@@ -78,6 +93,8 @@
             $scope.editMode = false;
             currentUser.id = response.data;
             $scope.getAll();
+            $scope.alertText = "Create Contact Successfully";
+            $scope.alertType = "success";
             $scope.alertMessage = {
               type: $scope.alertType,
               text: $scope.alertText,
@@ -90,6 +107,8 @@
           },
           function () {
             $scope.alertText = "An Error has occured while Creating user! ";
+            $scope.alertType = "danger";
+
             $scope.alertMessage = {
               type: $scope.alertType,
               text: $scope.alertText,
@@ -109,12 +128,14 @@
     //update user
     $scope.update = function () {
       var currentUser = this.user;
-      $scope.alertText = "Update Contact Successfully";
 
       userFactory.updateUser(currentUser).then(
         function () {
           currentUser.editMode = false;
           $scope.getAll();
+          $scope.alertText = "Update Contact Successfully";
+          $scope.alertType = "success";
+
           $scope.alertMessage = {
             type: $scope.alertType,
             text: $scope.alertText,
@@ -124,6 +145,8 @@
         },
         function () {
           $scope.alertText = "An Error has occured while Updating user! ";
+          $scope.alertType = "danger";
+
           $scope.alertMessage = {
             type: $scope.alertType,
             text: $scope.alertText,
@@ -136,12 +159,12 @@
     //delete user
     $scope.delete = function () {
       var currentUser = this.user;
-      $scope.alertText = "Delete Contact Successfully";
-      $scope.alertType = "warning";
       if (confirm("Are you sure you want to delete this?")) {
         userFactory.deleteUser(currentUser).then(
           function () {
             $scope.getAll();
+            $scope.alertText = "Delete Contact Successfully";
+            $scope.alertType = "warning";
             $scope.alertMessage = {
               type: $scope.alertType,
               text: $scope.alertText,
@@ -150,6 +173,8 @@
           },
           function () {
             $scope.alertText = "An Error has occured while Delete user! ";
+            $scope.alertType = "danger";
+
             $scope.alertMessage = {
               type: $scope.alertType,
               text: $scope.alertText,
@@ -175,6 +200,26 @@
     $scope.cancel = function () {
       $scope.user = null;
       $("#userModel").modal("hide");
+    };
+
+    // previous and next button on pagination
+    $scope.changePageArrow = function (val) {
+      if (val === "prev") {
+        if ($scope.currentPage > 1) {
+          $scope.currentPage -= 1;
+          $scope.getAll($scope.currentPage);
+        }
+      } else {
+        if ($scope.currentPage < $scope.pageNumber) {
+          $scope.currentPage += 1;
+          $scope.getAll($scope.currentPage);
+        }
+      }
+    };
+    // change page by number
+    $scope.changePage = function (page) {
+      $scope.currentPage = page;
+      $scope.getAll(page);
     };
 
     // initialize users data
@@ -206,17 +251,17 @@
             switch (scope.alert.type) {
               case "success":
                 {
-                  icon = "ok-sign";
+                  icon = "check-circle-fill";
                 }
                 break;
               case "warning":
                 {
-                  icon = "exclamation-sign";
+                  icon = "exclamation-circle-fill";
                 }
                 break;
               case "danger":
                 {
-                  icon = "remove-sign";
+                  icon = "x-circle-fill";
                 }
                 break;
             }
@@ -226,17 +271,12 @@
               scope.alert.type +
               " mt-3' role='alert'>";
 
-            // if (scope.alert.closable) {
-            //   html +=
-            //     "<button type='button' class='close' data-dismiss='alert' ng-click='close()' aria-label='Close'><span aria-hidden='true'>&times;</span></button>";
-            // }
-
-            // if (icon) {
-            //   html +=
-            //     "<span style='padding-right: 5px;' class='bi bi-" +
-            //     icon +
-            //     "' aria-hidden='true'></span>";
-            // }
+            if (icon) {
+              html +=
+                "<span style='padding-right: 5px;' class='bi bi-" +
+                icon +
+                "' aria-hidden='true'></span>";
+            }
 
             html += scope.alert.text;
             html += "</div>";

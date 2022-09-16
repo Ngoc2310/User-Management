@@ -18,6 +18,7 @@
 
     <title>Contact Management</title>
   </head>
+
   <body ng-controller="UserCtrl">
     <div class="container">
       <h2>Users Management</h2>
@@ -33,6 +34,7 @@
 
       <alert-message alert="alertMessage"></alert-message>
 
+      <!------     Contact Table     ------>
       <table class="table table-hover">
         <thead>
           <tr>
@@ -46,7 +48,7 @@
         </thead>
         <tbody>
           <tr ng-repeat="user in users">
-            <td>{{ $index + 1 }}</td>
+            <td>{{ user.id }}</td>
             <td>{{ user.name }}</td>
             <td>{{ user.address }}</td>
             <td>{{ user.phone }}</td>
@@ -76,6 +78,33 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <!------     Pagination     ------>
+    <div class="mt-4">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          <li class="page-item prev" ng-click="changePageArrow('prev')">
+            <a class="page-link" href="javascript:void(0);"
+              ><span aria-hidden="true">&laquo;</span></a
+            >
+          </li>
+          <li
+            class="page-item"
+            ng-class="{ active: currentPage === $index + 1 }"
+            ng-repeat="a in range(pageNumber) track by $index"
+            ng-click="changePage($index + 1)"
+          >
+            <a class="page-link" href="javascript:void(0);">{{ $index + 1 }}</a>
+          </li>
+
+          <li class="page-item next" ng-click="changePageArrow('next')">
+            <a class="page-link" href="javascript:void(0);"
+              ><span aria-hidden="true">&raquo;</span></a
+            >
+          </li>
+        </ul>
+      </nav>
     </div>
 
     <!------     Modal     ------>
@@ -193,7 +222,6 @@
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-animate/1.8.3/angular-animate.min.js"></script> -->
     <script src="app.js"></script>
   </body>
 </html>
