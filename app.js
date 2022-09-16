@@ -6,11 +6,12 @@
   var url = "";
 
   // /blogs?page=1&limit=1
+  // /blogs?search=blog1
 
   app.factory("userFactory", function ($http) {
     return {
-      getUsers: function (currentPage) {
-        url = api + "?page=" + currentPage + "&limit=5";
+      getUsers: function (currentPage, search) {
+        url = api + "?page=" + currentPage + "&limit=5" + "&search=" + search;
         return $http.get(url);
       },
 
@@ -50,15 +51,16 @@
     $scope.currentPage = 1;
     $scope.pageNumber = 0;
 
+    $scope.search = "";
     //get all users
     $scope.getAll = function () {
-      userFactory.getUsers($scope.currentPage).then(
+      userFactory.getUsers($scope.currentPage, $scope.search).then(
         function (response) {
           $scope.users = response.data.items;
 
           $scope.pageNumber = userFactory.totalPage(5, response.data.count);
+
           console.log(response.data);
-          console.log($scope.pageNumber);
         },
         function () {
           $scope.alertText = "An Error has occured while Loading user! ";
@@ -71,6 +73,11 @@
           };
         }
       );
+    };
+
+    $scope.refresh = function () {
+      $scope.search = "";
+      $scope.getAll();
     };
 
     $scope.range = function (n) {

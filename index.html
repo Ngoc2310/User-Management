@@ -47,6 +47,26 @@
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <div class="input-group mt-3">
+              <button
+                class="btn btn-outline-primary"
+                type="button"
+                id="button-addon1"
+                ng-click="refresh()"
+                ng-if="search"
+              >
+                <i class="bi bi-arrow-clockwise"></i>
+              </button>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Type any..."
+                ng-model="search"
+                ng-keyup="getAll()"
+              />
+            </div>
+          </tr>
           <tr ng-repeat="user in users">
             <td>{{ user.id }}</td>
             <td>{{ user.name }}</td>
