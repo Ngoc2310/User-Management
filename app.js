@@ -66,7 +66,7 @@
 
     $scope.search = "";
 
-    $scope.sortBy = "";
+    $scope.sortBy = "id";
     $scope.sortOrder = "";
     $scope.isAsc = true;
 
