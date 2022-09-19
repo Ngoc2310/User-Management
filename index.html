@@ -115,6 +115,7 @@
 
       <!------     Pagination     ------>
       <div class="row">
+        <!------     Show records     ------>
         <div class="col-sm-12 col-md-6">
           <div class="mb-3 row">
             <div class="col-md-3">
@@ -124,7 +125,7 @@
                 ng-model="pageLimit"
                 ng-click="getAll()"
               >
-                <option selected value="5">5</option>
+                <option value="5">5</option>
                 <option value="7">7</option>
                 <option value="10">10</option>
               </select>
@@ -132,11 +133,12 @@
             <label for="pagesize" class="col-md-9 col-form-label">
               Showing {{ (currentPage - 1) * pageLimit + 1}} - {{ (currentPage *
               pageLimit) > totalData ? totalData : (currentPage * pageLimit) }}
-              of {{ pageNumber * pageLimit }} Records
+              of {{ totalData }} Records
             </label>
           </div>
         </div>
 
+        <!------     Pagination Number     ------>
         <div class="col-sm-12 col-md-6">
           <nav aria-label="Page navigation">
             <ul class="pagination justify-content-end">
