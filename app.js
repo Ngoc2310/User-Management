@@ -11,8 +11,19 @@
 
   app.factory("userFactory", function ($http) {
     return {
-      getUsers: function (currentPage, search) {
-        url = api + "?page=" + currentPage + "&limit=5" + "&search=" + search;
+      getUsers: function (currentPage, pageLimit, search, sortBy, sortOrder) {
+        url =
+          api +
+          "?page=" +
+          currentPage +
+          "&limit=" +
+          pageLimit +
+          "&search=" +
+          search +
+          "&sortBy=" +
+          sortBy +
+          "&order=" +
+          sortOrder;
         return $http.get(url);
       },
 
@@ -51,21 +62,35 @@
 
     $scope.currentPage = 1;
     $scope.pageNumber = 0;
+    $scope.pageLimit = 5;
 
     $scope.search = "";
 
-    $scope.sortby = "name";
+    $scope.sortBy = "";
+    $scope.sortOrder = "";
+    $scope.isAsc = true;
+
     //get all users
     $scope.getAll = function () {
       userFactory
-        .getUsers($scope.currentPage, $scope.search, $scope.sortby)
+        .getUsers(
+          $scope.currentPage,
+          $scope.pageLimit,
+          $scope.search,
+          $scope.sortBy,
+          $scope.sortOrder
+        )
         .then(
           function (response) {
             $scope.users = response.data.items;
 
-            $scope.pageNumber = userFactory.totalPage(5, response.data.count);
+            $scope.totalData = response.data.count;
+            $scope.pageNumber = userFactory.totalPage(
+              $scope.pageLimit,
+              $scope.totalData
+            );
 
-            console.log(response.data);
+            // console.log(response.data);
           },
           function () {
             $scope.alertText = "An Error has occured while Loading user! ";
@@ -78,6 +103,14 @@
             };
           }
         );
+    };
+
+    $scope.sort = function (column) {
+      console.log(column);
+      $scope.sortOrder = $scope.isAsc ? "desc" : "";
+      $scope.isAsc = !$scope.isAsc;
+      $scope.sortBy = column;
+      $scope.getAll();
     };
 
     // click button to refresh the search bar
