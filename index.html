@@ -78,12 +78,12 @@
           </tr>
 
           <!-- contact list -->
-          <tr ng-repeat="user in users | orderBy:sortBy:sortOrder">
-            <td>{{ user.id }}</td>
-            <td>{{ user.name }}</td>
-            <td>{{ user.address }}</td>
-            <td>{{ user.phone }}</td>
-            <td>{{ user.email }}</td>
+          <tr ng-repeat="u in users | orderBy:sortBy:sortOrder">
+            <td>{{ u.id }}</td>
+            <td>{{ u.name }}</td>
+            <td>{{ u.address }}</td>
+            <td>{{ u.phone }}</td>
+            <td>{{ u.email }}</td>
             <td>
               <div
                 class="btn-group"
@@ -93,14 +93,14 @@
                 <button
                   type="button"
                   class="btn btn-sm btn-outline-info"
-                  ng-click="edit(user)"
+                  ng-click="edit(u)"
                 >
                   <i class="bi bi-pencil"></i>
                 </button>
                 <button
                   type="button"
                   class="btn btn-sm btn-outline-danger"
-                  ng-click="deleteform(user)"
+                  ng-click="deleteform(u)"
                 >
                   <i class="bi bi-trash"></i>
                 </button>
@@ -289,7 +289,6 @@
                     required
                     class="form-control"
                     ng-model="user.email"
-                    ng-keyup="change()"
                   />
                 </div>
               </div>

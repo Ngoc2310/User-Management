@@ -175,7 +175,8 @@
 
     //open edit modal when click edit button
     $scope.edit = function () {
-      $scope.user = angular.copy(this.user);
+      $scope.user = angular.copy(this.u);
+
       $scope.editMode = true;
       $scope.deleteMode = false;
       $("#userModal").modal("show");
@@ -214,7 +215,7 @@
 
     //open delete modal when click delete button
     $scope.deleteform = function () {
-      $scope.user = angular.copy(this.user);
+      $scope.user = angular.copy(this.u);
       $scope.deleteMode = true;
       $("#userModal").modal("show");
     };
