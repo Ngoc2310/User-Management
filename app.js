@@ -56,6 +56,7 @@
     $scope.users = [];
     $scope.user = null;
     $scope.editMode = false;
+    $scope.deleteMode = false;
 
     $scope.alertMessage = null;
     $scope.secondsDelay = 2;
@@ -123,6 +124,14 @@
       return new Array(n);
     };
 
+    //open add modal when click create button
+    $scope.showadd = function () {
+      $scope.user = null;
+      $scope.editMode = false;
+      $scope.deleteMode = false;
+      $("#userModal").modal("show");
+    };
+
     //add user
     $scope.add = function () {
       var currentUser = this.user;
@@ -149,7 +158,7 @@
 
             $scope.user = null;
 
-            $("#userModel").modal("hide");
+            $("#userModal").modal("hide");
           },
           function () {
             $scope.alertText = "An Error has occured while Creating user! ";
@@ -164,11 +173,12 @@
         );
     };
 
-    //click edit button
+    //open edit modal when click edit button
     $scope.edit = function () {
       $scope.user = angular.copy(this.user);
       $scope.editMode = true;
-      $("#userModel").modal("show");
+      $scope.deleteMode = false;
+      $("#userModal").modal("show");
     };
 
     //update user
@@ -187,7 +197,7 @@
             text: $scope.alertText,
             delay: $scope.secondsDelay,
           };
-          $("#userModel").modal("hide");
+          $("#userModal").modal("hide");
         },
         function () {
           $scope.alertText = "An Error has occured while Updating user! ";
@@ -202,50 +212,45 @@
       );
     };
 
+    //open delete modal when click delete button
+    $scope.deleteform = function () {
+      $scope.user = angular.copy(this.user);
+      $scope.deleteMode = true;
+      $("#userModal").modal("show");
+    };
+
     //delete user
     $scope.delete = function () {
       var currentUser = this.user;
-      if (confirm("Are you sure you want to delete this?")) {
-        userFactory.deleteUser(currentUser).then(
-          function () {
-            $scope.getAll();
-            $scope.alertText = "Delete Contact Successfully";
-            $scope.alertType = "warning";
-            $scope.alertMessage = {
-              type: $scope.alertType,
-              text: $scope.alertText,
-              delay: $scope.secondsDelay,
-            };
-          },
-          function () {
-            $scope.alertText = "An Error has occured while Delete user! ";
-            $scope.alertType = "danger";
 
-            $scope.alertMessage = {
-              type: $scope.alertType,
-              text: $scope.alertText,
-              delay: $scope.secondsDelay,
-            };
-          }
-        );
-      }
-    };
+      userFactory.deleteUser(currentUser).then(
+        function () {
+          $scope.getAll();
+          $scope.alertText = "Delete Contact Successfully";
+          $scope.alertType = "warning";
+          $scope.alertMessage = {
+            type: $scope.alertType,
+            text: $scope.alertText,
+            delay: $scope.secondsDelay,
+          };
+          $("#userModal").modal("hide");
+        },
+        function () {
+          $scope.alertText = "An Error has occured while Delete user! ";
+          $scope.alertType = "danger";
 
-    //open add modal when click create button
-    $scope.showadd = function () {
-      $scope.user = null;
-      $scope.editMode = false;
-      $("#userModel").modal("show");
-    };
-
-    //open edit modal when click edit button
-    $scope.showedit = function () {
-      $("#userModel").modal("show");
+          $scope.alertMessage = {
+            type: $scope.alertType,
+            text: $scope.alertText,
+            delay: $scope.secondsDelay,
+          };
+        }
+      );
     };
 
     $scope.cancel = function () {
       $scope.user = null;
-      $("#userModel").modal("hide");
+      $("#userModal").modal("hide");
     };
 
     // previous and next button on pagination

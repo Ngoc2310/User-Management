@@ -100,7 +100,7 @@
                 <button
                   type="button"
                   class="btn btn-sm btn-outline-danger"
-                  ng-click="delete(user)"
+                  ng-click="deleteform(user)"
                 >
                   <i class="bi bi-trash"></i>
                 </button>
@@ -209,21 +209,33 @@
     <!------     Modal     ------>
     <div
       class="modal fade"
-      id="userModel"
+      id="userModal"
       tabindex="-1"
       role="dialog"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
-          <form class="form-horizontal" role="form" name="adduserform">
+          <form
+            class="form-horizontal"
+            role="form"
+            name="adduserform"
+            novalidate
+          >
             <div class="modal-header">
-              <h4 class="modal-title" id="myModalLabel" ng-hide="editMode">
-                Add Contact
-              </h4>
-              <h4 class="modal-title" id="myModalLabel" ng-show="editMode">
-                Edit Contact
-              </h4>
+              <div ng-show="!deleteMode">
+                <h4 class="modal-title" id="myModalLabel" ng-hide="editMode">
+                  Add Contact
+                </h4>
+                <h4 class="modal-title" id="myModalLabel" ng-show="editMode">
+                  Edit Contact
+                </h4>
+              </div>
+              <div ng-show="deleteMode">
+                <h4 class="modal-title" id="myModalLabel">
+                  Are you sure you want to delete this?
+                </h4>
+              </div>
               <button
                 type="button"
                 class="btn-close"
@@ -231,7 +243,7 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" ng-show="!deleteMode">
               <div class="row">
                 <div class="col mb-3">
                   <label for="name" class="form-label">Name</label>
@@ -250,7 +262,7 @@
                   <input
                     type="text"
                     id="address"
-                    required="required"
+                    required
                     class="form-control"
                     ng-model="user.address"
                   />
@@ -262,7 +274,7 @@
                   <input
                     type="text"
                     id="phone"
-                    required="required"
+                    required
                     class="form-control"
                     ng-model="user.phone"
                   />
@@ -272,35 +284,46 @@
                 <div class="col mb-3">
                   <label for="email" class="form-label">Email</label>
                   <input
-                    type="text"
+                    type="email"
                     id="email"
-                    required="required"
+                    required
                     class="form-control"
                     ng-model="user.email"
+                    ng-keyup="change()"
                   />
                 </div>
               </div>
             </div>
             <div class="modal-footer">
               <div class="btn-group" role="group" aria-label="Basic example">
-                <span ng-hide="editMode">
+                <div ng-show="!deleteMode">
+                  <span ng-hide="editMode">
+                    <input
+                      type="submit"
+                      class="btn btn-primary"
+                      value="Create"
+                      ng-disabled="adduserform.$invalid"
+                      ng-click="add()"
+                    />
+                  </span>
+                  <span ng-show="editMode">
+                    <input
+                      type="submit"
+                      class="btn btn-primary"
+                      value="Edit"
+                      ng-disabled="adduserform.$invalid"
+                      ng-click="update()"
+                    />
+                  </span>
+                </div>
+                <div ng-show="deleteMode">
                   <input
                     type="submit"
-                    class="btn btn-primary"
-                    value="Create"
-                    ng-disabled="adduserform.$invalid"
-                    ng-click="add()"
+                    class="btn btn-danger"
+                    value="Delete"
+                    ng-click="delete()"
                   />
-                </span>
-                <span ng-show="editMode">
-                  <input
-                    type="submit"
-                    class="btn btn-primary"
-                    value="Edit"
-                    ng-disabled="adduserform.$invalid"
-                    ng-click="update()"
-                  />
-                </span>
+                </div>
                 <input
                   type="button"
                   class="btn btn-secondary"
