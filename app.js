@@ -176,12 +176,15 @@
     //open edit modal when click edit button
     $scope.edit = function (u) {
       $scope.user = angular.copy(u);
+
+      //check if input in edit modal is changed or not
       $scope.check = function () {
         if (angular.equals($scope.user, u)) {
           return true;
         }
         return false;
       };
+
       $scope.editMode = true;
       $scope.deleteMode = false;
       $("#userModal").modal("show");
@@ -219,8 +222,8 @@
     };
 
     //open delete modal when click delete button
-    $scope.deleteform = function () {
-      $scope.user = angular.copy(this.u);
+    $scope.deleteform = function (u) {
+      $scope.user = angular.copy(u);
       $scope.deleteMode = true;
       $("#userModal").modal("show");
     };
