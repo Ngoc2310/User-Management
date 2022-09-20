@@ -253,6 +253,7 @@
                     required
                     class="form-control"
                     ng-model="user.name"
+                    ng-change="check()"
                   />
                 </div>
               </div>
@@ -265,6 +266,7 @@
                     required
                     class="form-control"
                     ng-model="user.address"
+                    ng-change="check()"
                   />
                 </div>
               </div>
@@ -277,6 +279,7 @@
                     required
                     class="form-control"
                     ng-model="user.phone"
+                    ng-change="check()"
                   />
                 </div>
               </div>
@@ -289,6 +292,7 @@
                     required
                     class="form-control"
                     ng-model="user.email"
+                    ng-change="check()"
                   />
                 </div>
               </div>
@@ -310,7 +314,7 @@
                       type="submit"
                       class="btn btn-primary"
                       value="Edit"
-                      ng-disabled="adduserform.$invalid"
+                      ng-disabled="adduserform.$invalid || check()"
                       ng-click="update()"
                     />
                   </span>

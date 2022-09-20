@@ -174,9 +174,14 @@
     };
 
     //open edit modal when click edit button
-    $scope.edit = function () {
-      $scope.user = angular.copy(this.u);
-
+    $scope.edit = function (u) {
+      $scope.user = angular.copy(u);
+      $scope.check = function () {
+        if (angular.equals($scope.user, u)) {
+          return true;
+        }
+        return false;
+      };
       $scope.editMode = true;
       $scope.deleteMode = false;
       $("#userModal").modal("show");
