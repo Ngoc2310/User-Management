@@ -157,7 +157,7 @@
             };
 
             $scope.user = null;
-
+            $scope.adduserform.$setPristine();
             $("#userModal").modal("hide");
           },
           function () {
@@ -206,6 +206,7 @@
             text: $scope.alertText,
             delay: $scope.secondsDelay,
           };
+          $scope.adduserform.$setPristine();
           $("#userModal").modal("hide");
         },
         function () {
