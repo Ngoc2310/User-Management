@@ -259,6 +259,7 @@
 
     $scope.cancel = function () {
       $scope.user = null;
+      $scope.adduserform.$setPristine();
       $("#userModal").modal("hide");
     };
 

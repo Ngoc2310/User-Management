@@ -20,6 +20,12 @@
       .notshow {
         display: none;
       }
+      .has-error {
+        color: red;
+        opacity: 0.75;
+        margin-top: 1px;
+        font-style: italic;
+      }
     </style>
 
     <title>Contact Management</title>
@@ -210,6 +216,8 @@
     <div
       class="modal fade"
       id="userModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
       tabindex="-1"
       role="dialog"
       aria-hidden="true"
@@ -241,6 +249,7 @@
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                ng-click="cancel()"
               ></button>
             </div>
             <div class="modal-body" ng-show="!deleteMode">
@@ -250,11 +259,18 @@
                   <input
                     type="text"
                     id="name"
+                    name="name"
+                    placeholder="Enter your name"
                     required
                     class="form-control"
                     ng-model="user.name"
                     ng-change="check()"
                   />
+                  <div ng-show="adduserform.name.$dirty" class="has-error">
+                    <span ng-show="adduserform.name.$invalid"
+                      >Please enter a valid name</span
+                    >
+                  </div>
                 </div>
               </div>
               <div class="row">
@@ -263,11 +279,18 @@
                   <input
                     type="text"
                     id="address"
+                    name="address"
+                    placeholder="Enter your address"
                     required
                     class="form-control"
                     ng-model="user.address"
                     ng-change="check()"
                   />
+                  <div class="has-error" ng-show="adduserform.address.$dirty">
+                    <span ng-show="adduserform.address.$invalid"
+                      >Please enter a valid address</span
+                    >
+                  </div>
                 </div>
               </div>
               <div class="row">
@@ -276,11 +299,18 @@
                   <input
                     type="text"
                     id="phone"
+                    name="phone"
+                    placeholder="Enter your phone number"
                     required
                     class="form-control"
                     ng-model="user.phone"
                     ng-change="check()"
                   />
+                  <div class="has-error" ng-show="adduserform.phone.$dirty">
+                    <span ng-show="adduserform.phone.$invalid"
+                      >Please enter a valid phone number</span
+                    >
+                  </div>
                 </div>
               </div>
               <div class="row">
@@ -289,11 +319,18 @@
                   <input
                     type="email"
                     id="email"
+                    name="email"
+                    placeholder="Enter your email"
                     required
                     class="form-control"
                     ng-model="user.email"
                     ng-change="check()"
                   />
+                  <div class="has-error" ng-show="adduserform.email.$dirty">
+                    <span ng-show="adduserform.email.$invalid "
+                      >Please enter a valid email
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
