@@ -1,13 +1,20 @@
 (function () {
   "use strict";
 
-  var app = angular.module("UserManagement", []);
+  var app = angular.module("myApp", ["ngRoute"]);
   var api = "https://631e9e7f58a1c0fe9f5494b8.mockapi.io/users";
   var url = "";
 
-  // /blogs?page=1&limit=1
-  // /blogs?search=blog1
-  // /blogs?sortBy=createdAt&order=desc
+  app.config(function ($routeProvider) {
+    $routeProvider
+      .when("/", {
+        templateUrl: "UserManage.html",
+      })
+      .when("/UserManagement", {
+        templateUrl: "UserManage.html",
+        controller: "UserCtrl",
+      });
+  });
 
   app.factory("userFactory", function ($http) {
     return {
@@ -52,7 +59,7 @@
     };
   });
 
-  app.controller("UserCtrl", function PostController($scope, userFactory) {
+  app.controller("UserCtrl", function ($scope, userFactory) {
     $scope.users = [];
     $scope.user = null;
     $scope.editMode = false;
@@ -286,6 +293,16 @@
 
     // initialize users data
     $scope.getAll();
+  });
+
+  app.directive("searchBar", function () {
+    return {
+      restrict: "E",
+      templateURL: "searchbar.html",
+      scope: {
+        search: "=",
+      },
+    };
   });
 
   //alert
