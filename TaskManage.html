@@ -236,7 +236,7 @@
               />
               <div ng-show="addtaskform.name.$dirty" class="has-error">
                 <span ng-show="addtaskform.name.$invalid"
-                  >Please enter a valid name</span
+                  >Please enter your task's name</span
                 >
               </div>
             </div>
@@ -256,47 +256,50 @@
               ></textarea>
               <div class="has-error" ng-show="addtaskform.description.$dirty">
                 <span ng-show="addtaskform.description.$invalid"
-                  >Please enter a valid address</span
+                  >Please enter your task's description</span
                 >
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col mb-3">
-              <label for="phone" class="form-label">Assigner</label>
-              <input
-                type="text"
-                id="phone"
-                name="phone"
-                placeholder="Enter your phone number"
-                required
-                class="form-control"
-                ng-model="user.phone"
-                ng-change="check()"
-              />
-              <div class="has-error" ng-show="adduserform.phone.$dirty">
-                <span ng-show="adduserform.phone.$invalid"
-                  >Please enter a valid phone number</span
+              <label for="assigner" class="form-label">Assigner</label>
+              <select name="assigner" id="assigner" ng-model="task.assigner">
+                <option value=""></option>
+              </select>
+              <div class="has-error" ng-show="addtaskform.assigner.$dirty">
+                <span ng-show="addtaskform.assigner.$invalid"
+                  >Please select an assigner</span
                 >
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                required
-                class="form-control"
-                ng-model="user.email"
-                ng-change="check()"
-              />
-              <div class="has-error" ng-show="adduserform.email.$dirty">
-                <span ng-show="adduserform.email.$invalid "
-                  >Please enter a valid email
+              <label for="type" class="form-label">Type</label>
+              <select name="type" id="type" ng-model="task.type">
+                <option value="devtask">devTask</option>
+                <option value="story">Story</option>
+                <option value="pr">PR</option>
+              </select>
+              <div class="has-error" ng-show="addtaskform.type.$dirty">
+                <span ng-show="addtaskform.type.$invalid "
+                  >Please select a type for your task
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mb-3">
+              <label for="type" class="form-label">Type</label>
+              <select name="type" id="type" ng-model="task.type">
+                <option value="devtask">devTask</option>
+                <option value="story">Story</option>
+                <option value="pr">PR</option>
+              </select>
+              <div class="has-error" ng-show="addtaskform.type.$dirty">
+                <span ng-show="addtaskform.type.$invalid "
+                  >Please select a type for your task
                 </span>
               </div>
             </div>
@@ -310,7 +313,7 @@
                   type="submit"
                   class="btn btn-primary"
                   value="Create"
-                  ng-disabled="adduserform.$invalid"
+                  ng-disabled="addtaskform.$invalid"
                   ng-click="add()"
                 />
               </span>
@@ -319,7 +322,7 @@
                   type="submit"
                   class="btn btn-primary"
                   value="Edit"
-                  ng-disabled="adduserform.$invalid || check()"
+                  ng-disabled="addtaskform.$invalid || check()"
                   ng-click="update()"
                 />
               </span>

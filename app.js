@@ -13,6 +13,10 @@
       .when("/UserManagement", {
         templateUrl: "UserManage.html",
         controller: "UserCtrl",
+      })
+      .when("/TaskManagement", {
+        templateUrl: "TaskManage.html",
+        controller: "",
       });
   });
 
