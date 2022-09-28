@@ -8,14 +8,14 @@
   app.config(function ($routeProvider) {
     $routeProvider
       .when("/", {
-        templateUrl: "UserManage.html",
+        templateUrl: "/pages/UserManage.html",
       })
       .when("/UserManagement", {
-        templateUrl: "UserManage.html",
+        templateUrl: "/pages/UserManage.html",
         controller: "UserCtrl",
       })
       .when("/TaskManagement", {
-        templateUrl: "TaskManage.html",
+        templateUrl: "/pages/TaskManage.html",
         controller: "",
       });
   });
@@ -62,6 +62,15 @@
       },
     };
   });
+
+  app.controller(
+    "MainController",
+    function ($scope, $route, $routeParams, $location) {
+      $scope.$route = $route;
+      $scope.$location = $location;
+      $scope.$routeParams = $routeParams;
+    }
+  );
 
   app.controller("UserCtrl", function ($scope, userFactory) {
     $scope.users = [];
@@ -297,16 +306,6 @@
 
     // initialize users data
     $scope.getAll();
-  });
-
-  app.directive("searchBar", function () {
-    return {
-      restrict: "E",
-      templateURL: "searchbar.html",
-      scope: {
-        search: "=",
-      },
-    };
   });
 
   //alert
