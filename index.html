@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="myApp">
   <head>
+    <base href="/" />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- CSS only -->
     <link
       rel="stylesheet"
-      href="node_modules/bootstrap/dist/css/bootstrap.min.css"
+      href="node_modules/bootstrap/dist/css/bootstrap.css"
     />
     <link
       rel="stylesheet"
       href="node_modules/bootstrap-icons/font/bootstrap-icons.css"
     />
-    <link rel="stylesheet" href="" />
+    <link rel="stylesheet" href="theme.css" />
     <link rel="stylesheet" href="style.css" />
     <title>Contact Management</title>
   </head>
@@ -22,67 +23,38 @@
     <div class="container-fluid">
       <div class="row flex-nowrap">
         <div
-          class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark"
+          class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-primary"
           id="sidemenu"
         >
           <div
-            class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100"
+            class="d-flex flex-column align-items-center text-light align-items-sm-start px-3 pt-2 mt-3 text-white min-vh-100"
           >
             <a
               href="/"
-              class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"
+              class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-decoration-none"
             >
-              <span class="fs-5 d-none d-sm-inline"><h3>Menu</h3></span>
+              <span class="menu-text text-light fw-bolder ms-2"
+                ><h1>Menu</h1></span
+              >
             </a>
             <ul
               class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
               id="menu"
             >
-              <li>
-                <a href="#/UserManagement" class="nav-link px-0 align-middle">
+              <li class="menu-item">
+                <a href="/users" class="nav-link text-light px-0 align-middle">
                   <i class="fs-4 bi-person-circle"></i>
                   <span class="ms-1 d-none d-sm-inline">Users Management</span>
                 </a>
               </li>
 
-              <li>
-                <a href="#/TaskManagement" class="nav-link px-0 align-middle">
+              <li class="menu-item">
+                <a href="/tasks" class="nav-link text-light px-0 align-middle">
                   <i class="fs-4 bi-list-task"></i>
                   <span class="ms-1 d-none d-sm-inline">Tasks Management</span>
                 </a>
               </li>
             </ul>
-            <!-- <hr />
-            <div class="dropdown pb-4">
-              <a
-                href="#"
-                class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                id="dropdownUser1"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <img
-                  src="https://github.com/mdo.png"
-                  alt="hugenerd"
-                  width="30"
-                  height="30"
-                  class="rounded-circle"
-                />
-                <span class="d-none d-sm-inline mx-1">loser</span>
-              </a>
-              <ul
-                class="dropdown-menu dropdown-menu-dark text-small shadow"
-                aria-labelledby="dropdownUser1"
-              >
-                <li><a class="dropdown-item" href="#">New project...</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
-              </ul>
-            </div> -->
           </div>
         </div>
 
@@ -92,10 +64,14 @@
       </div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/angular/angular.min.js"></script>
     <script src="node_modules/angular-route/angular-route.min.js"></script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="app.js"></script>
+    <script src="app.config.js"></script>
+    <script src="alert.directive.js"></script>
+    <script src="pages/users/usersController.js"></script>
+    <script src="pages/tasks/tasksController.js"></script>
   </body>
 </html>

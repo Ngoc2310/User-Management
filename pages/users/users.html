@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" ng-controller="UserCtrl">
   <div class="clearfix mt-3">
     <h2 class="text-primary float-start">Users Management</h2>
     <button
@@ -76,8 +76,8 @@
               </div>
             </td>
           </tr>
-          <tr ng-if="users.length === 0" class="text-center">
-            <td colspan="6">No Data Found</td>
+          <tr ng-if="users.length === 0">
+            <td class="text-center" colspan="6">No Data Found</td>
           </tr>
         </tbody>
       </table>
@@ -180,165 +180,166 @@
       <!------/     Pagination Number     ------>
     </div>
   </div>
-</div>
-<!------/     Pagination     ------>
+  <!------/     Pagination     ------>
 
-<!------     Modal     ------>
-<div
-  class="modal fade"
-  id="userModal"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form class="form-horizontal" role="form" name="adduserform" novalidate>
-        <div class="modal-header">
-          <div ng-show="!deleteMode">
-            <h4 class="modal-title" id="myModalLabel" ng-hide="editMode">
-              Add Contact
-            </h4>
-            <h4 class="modal-title" id="myModalLabel" ng-show="editMode">
-              Edit Contact
-            </h4>
-          </div>
-          <div ng-show="deleteMode">
-            <h4 class="modal-title" id="myModalLabel">
-              Are you sure you want to delete this?
-            </h4>
-          </div>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            ng-click="cancel()"
-          ></button>
-        </div>
-        <div class="modal-body" ng-show="!deleteMode">
-          <div class="row">
-            <div class="col mb-3">
-              <label for="name" class="form-label">Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Enter your name"
-                required
-                class="form-control"
-                ng-model="user.name"
-                ng-change="check()"
-              />
-              <div ng-show="adduserform.name.$dirty" class="has-error">
-                <span ng-show="adduserform.name.$invalid"
-                  >Please enter a valid name</span
-                >
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col mb-3">
-              <label for="address" class="form-label">Address</label>
-              <input
-                type="text"
-                id="address"
-                name="address"
-                placeholder="Enter your address"
-                required
-                class="form-control"
-                ng-model="user.address"
-                ng-change="check()"
-              />
-              <div class="has-error" ng-show="adduserform.address.$dirty">
-                <span ng-show="adduserform.address.$invalid"
-                  >Please enter a valid address</span
-                >
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col mb-3">
-              <label for="phone" class="form-label">Phone Number</label>
-              <input
-                type="text"
-                id="phone"
-                name="phone"
-                placeholder="Enter your phone number"
-                required
-                class="form-control"
-                ng-model="user.phone"
-                ng-change="check()"
-              />
-              <div class="has-error" ng-show="adduserform.phone.$dirty">
-                <span ng-show="adduserform.phone.$invalid"
-                  >Please enter a valid phone number</span
-                >
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                required
-                class="form-control"
-                ng-model="user.email"
-                ng-change="check()"
-              />
-              <div class="has-error" ng-show="adduserform.email.$dirty">
-                <span ng-show="adduserform.email.$invalid "
-                  >Please enter a valid email
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <div class="btn-group" role="group" aria-label="Basic example">
+  <!------     Modal     ------>
+  <div
+    class="modal fade"
+    id="userModal"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form class="form-horizontal" role="form" name="adduserform" novalidate>
+          <div class="modal-header">
             <div ng-show="!deleteMode">
-              <span ng-hide="editMode">
-                <input
-                  type="submit"
-                  class="btn btn-primary"
-                  value="Create"
-                  ng-disabled="adduserform.$invalid"
-                  ng-click="add()"
-                />
-              </span>
-              <span ng-show="editMode">
-                <input
-                  type="submit"
-                  class="btn btn-primary"
-                  value="Edit"
-                  ng-disabled="adduserform.$invalid || check()"
-                  ng-click="update()"
-                />
-              </span>
+              <h4 class="modal-title" id="myModalLabel" ng-hide="editMode">
+                Add Contact
+              </h4>
+              <h4 class="modal-title" id="myModalLabel" ng-show="editMode">
+                Edit Contact
+              </h4>
             </div>
             <div ng-show="deleteMode">
+              <h4 class="modal-title" id="myModalLabel">
+                Are you sure you want to delete this?
+              </h4>
+            </div>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              ng-click="cancel()"
+            ></button>
+          </div>
+          <div class="modal-body" ng-show="!deleteMode">
+            <div class="row">
+              <div class="col mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Enter your name"
+                  required
+                  class="form-control"
+                  ng-model="user.name"
+                  ng-change="check()"
+                />
+                <div ng-show="adduserform.name.$dirty" class="has-error">
+                  <span ng-show="adduserform.name.$invalid"
+                    >Please enter a valid name</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  placeholder="Enter your address"
+                  required
+                  class="form-control"
+                  ng-model="user.address"
+                  ng-change="check()"
+                />
+                <div class="has-error" ng-show="adduserform.address.$dirty">
+                  <span ng-show="adduserform.address.$invalid"
+                    >Please enter a valid address</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input
+                  type="text"
+                  id="phone"
+                  name="phone"
+                  placeholder="Enter your phone number"
+                  required
+                  class="form-control"
+                  ng-model="user.phone"
+                  ng-change="check()"
+                />
+                <div class="has-error" ng-show="adduserform.phone.$dirty">
+                  <span ng-show="adduserform.phone.$invalid"
+                    >Please enter a valid phone number</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  required
+                  class="form-control"
+                  ng-model="user.email"
+                  ng-change="check()"
+                />
+                <div class="has-error" ng-show="adduserform.email.$dirty">
+                  <span ng-show="adduserform.email.$invalid "
+                    >Please enter a valid email
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <div ng-show="!deleteMode">
+                <span ng-hide="editMode">
+                  <input
+                    type="submit"
+                    class="btn btn-primary"
+                    value="Create"
+                    ng-disabled="adduserform.$invalid"
+                    ng-click="add()"
+                  />
+                </span>
+                <span ng-show="editMode">
+                  <input
+                    type="submit"
+                    class="btn btn-primary"
+                    value="Edit"
+                    ng-disabled="adduserform.$invalid || check()"
+                    ng-click="update()"
+                  />
+                </span>
+              </div>
+              <div ng-show="deleteMode">
+                <input
+                  type="submit"
+                  class="btn btn-danger"
+                  value="Delete"
+                  ng-click="delete()"
+                />
+              </div>
               <input
-                type="submit"
-                class="btn btn-danger"
-                value="Delete"
-                ng-click="delete()"
+                type="button"
+                class="btn btn-secondary"
+                value="Cancel"
+                ng-click="cancel()"
               />
             </div>
-            <input
-              type="button"
-              class="btn btn-secondary"
-              value="Cancel"
-              ng-click="cancel()"
-            />
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
+  <!------/     Modal     ------>
 </div>
