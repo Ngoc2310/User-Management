@@ -238,7 +238,7 @@
                   id="assigner"
                   name="assigner"
                   ng-model="task.assigner"
-                  ng-click="getAll()"
+                  ng-change="check()"
                 >
                   <option value="5">5</option>
                   <option value="7">7</option>
@@ -252,7 +252,7 @@
                   id="type"
                   name="type"
                   ng-model="task.type"
-                  ng-click="getAll()"
+                  ng-change="check()"
                 >
                   <option value="devTask">devTask</option>
                   <option value="story">Story</option>
@@ -266,7 +266,7 @@
                   id="type"
                   name="type"
                   ng-model="task.status"
-                  ng-click="getAll()"
+                  ng-change="check()"
                 >
                   <option value="Done">Done</option>
                   <option value="in-Progress">In-progress</option>
