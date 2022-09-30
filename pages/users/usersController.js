@@ -42,7 +42,7 @@
                 $scope.totalData
               );
 
-              // console.log(response.data);
+              console.log(response.data.items);
             },
             function () {
               $scope.alertText = "An Error has occured while Loading user! ";
@@ -79,6 +79,7 @@
         $scope.user = null;
         $scope.editMode = false;
         $scope.deleteMode = false;
+        console.log($scope.adduserform);
         $("#userModal").modal("show");
       };
 
