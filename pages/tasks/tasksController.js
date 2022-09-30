@@ -22,7 +22,6 @@
       $scope.sortOrder = "";
       $scope.isAsc = true;
 
-      $scope.status = "to-do";
       $scope.tableshow = false;
 
       $scope.getAll = function () {
@@ -46,7 +45,7 @@
               );
             },
             function () {
-              $scope.alertText = "An Error has occured while Loading user! ";
+              $scope.alertText = "An Error has occured while Loading task! ";
               $scope.alertType = "danger";
 
               $scope.alertMessage = {
@@ -92,7 +91,7 @@
         $scope.getUserName();
       };
 
-      //add user
+      //add task
       $scope.add = function () {
         var currentTask = this.task;
 
@@ -101,7 +100,7 @@
           currentTask.name != null &&
           currentTask.description != null &&
           currentTask.assigner != null &&
-          currentTask.email != null &&
+          currentTask.type != null &&
           currentTask.status != null
         )
           userFactory.addUser($scope.api, currentTask).then(
@@ -116,7 +115,7 @@
                 delay: $scope.secondsDelay,
               };
 
-              $scope.user = null;
+              $scope.task = null;
               $scope.tableshow = false;
             },
             function () {
@@ -149,7 +148,7 @@
         $scope.getUserName();
       };
 
-      // update user
+      // update task
       $scope.update = function () {
         var currentTask = this.task;
 
@@ -182,15 +181,15 @@
 
       //open delete table when click delete button
       $scope.deleteform = function (t) {
-        $scope.user = angular.copy(t);
+        $scope.task = angular.copy(t);
         $scope.deleteMode = true;
         $scope.tableshow = true;
       };
 
       $scope.delete = function () {
-        var currentUser = this.user;
+        var currentTask = this.task;
 
-        userFactory.deleteUser($scope.api, currentUser).then(
+        userFactory.deleteUser($scope.api, currentTask).then(
           function () {
             $scope.getAll();
             $scope.tableshow = false;
@@ -216,7 +215,7 @@
       };
 
       $scope.cancel = function () {
-        $scope.user = null;
+        $scope.task = null;
         $scope.tableshow = hide;
       };
 
