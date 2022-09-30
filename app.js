@@ -6,6 +6,7 @@
     .factory("userFactory", userFactory);
 
   var url = "";
+  var usersName = [];
 
   function userFactory($http) {
     return {
@@ -53,6 +54,9 @@
       },
       totalPage: function (pageSize, totalRecord) {
         return Math.ceil(totalRecord / pageSize);
+      },
+      getUserName: function () {
+        return $http.get("https://631e9e7f58a1c0fe9f5494b8.mockapi.io/users");
       },
     };
   }

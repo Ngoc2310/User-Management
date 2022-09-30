@@ -240,9 +240,7 @@
                   ng-model="task.assigner"
                   ng-change="check()"
                 >
-                  <option value="5">5</option>
-                  <option value="7">7</option>
-                  <option value="10">10</option>
+                  <option ng-repeat="name in userNames">{{name}}</option>
                 </select>
               </td>
               <td>

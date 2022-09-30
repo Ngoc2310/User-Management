@@ -75,13 +75,21 @@
         return new Array(n);
       };
 
+      $scope.getUserName = function () {
+        userFactory.getUserName().then(function (response) {
+          $scope.username = response.data.items;
+          $scope.userNames = $scope.username.map((user) => user.name);
+          console.log($scope.userNames);
+        });
+      };
+
       //open add table when click create button
       $scope.showadd = function () {
         $scope.task = null;
         $scope.editMode = false;
         $scope.deleteMode = false;
         $scope.tableshow = true;
-        console.log(UserCtrl.users);
+        $scope.getUserName();
       };
 
       //add user
@@ -138,6 +146,7 @@
         $scope.editMode = true;
         $scope.deleteMode = false;
         $scope.tableshow = true;
+        $scope.getUserName();
       };
 
       // update user

@@ -79,7 +79,6 @@
         $scope.user = null;
         $scope.editMode = false;
         $scope.deleteMode = false;
-        console.log($scope.adduserform);
         $("#userModal").modal("show");
       };
 
