@@ -7,15 +7,15 @@
       $locationProvider.html5Mode(true);
       $routeProvider
         .when("/", {
-          controller: "TaskCtrl",
+          controller: "TaskCtrl as tc",
           templateUrl: "pages/tasks/tasks.html",
         })
         .when("/users", {
-          controller: "UserCtrl",
+          controller: "UserCtrl as uc",
           templateUrl: "pages/users/users.html",
         })
         .when("/tasks", {
-          controller: "TaskCtrl",
+          controller: "TaskCtrl as tc",
           templateUrl: "pages/tasks/tasks.html",
         });
     },

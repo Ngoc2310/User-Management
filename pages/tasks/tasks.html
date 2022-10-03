@@ -4,7 +4,7 @@
     <button
       type="button"
       class="btn btn-primary float-end"
-      ng-click="showadd()"
+      ng-click="tc.showadd()"
     >
       <i class="bi bi-plus-circle-fill"></i>&nbsp; Create Task
     </button>
@@ -17,8 +17,8 @@
       class="btn btn-outline-primary"
       type="button"
       id="button-addon1"
-      ng-click="refresh()"
-      ng-if="search"
+      ng-click="tc.refresh()"
+      ng-if="tc.search"
     >
       <i class="bi bi-arrow-clockwise"></i>
     </button>
@@ -26,8 +26,8 @@
       type="text"
       class="form-control"
       placeholder="Type any to search"
-      ng-model="search"
-      ng-keyup="getAll()"
+      ng-model="tc.search"
+      ng-keyup="tc.getAll()"
     />
   </div>
 
@@ -37,24 +37,24 @@
       <table class="table table-striped">
         <thead class="table-light">
           <tr>
-            <th ng-click="sort('id')">ID</th>
-            <th ng-click="sort('name')">Name</th>
-            <th ng-click="sort('description')">Description</th>
-            <th ng-click="sort('assigner')">Assigner</th>
-            <th ng-click="sort('type')">Type</th>
-            <th ng-click="sort('status')">Status</th>
+            <th ng-click="tc.sort('id')">ID</th>
+            <th ng-click="tc.sort('name')">Name</th>
+            <th ng-click="tc.sort('description')">Description</th>
+            <th ng-click="tc.sort('assigner')">Assigner</th>
+            <th ng-click="tc.sort('type')">Type</th>
+            <th ng-click="tc.sort('status')">Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
           <!-- Tasks list -->
-          <tr ng-repeat="t in tasks | orderBy:sortBy:sortOrder">
-            <td>{{ t.id }}</td>
-            <td>{{ t.name }}</td>
-            <td>{{ t.description }}</td>
-            <td>{{ t.assigner }}</td>
-            <td>{{ t.type }}</td>
-            <td>{{ t.status }}</td>
+          <tr ng-repeat="task in tc.tasks | orderBy:tc.sortBy:tc.sortOrder">
+            <td>{{ task.id }}</td>
+            <td>{{ task.name }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.assigner }}</td>
+            <td>{{ task.type }}</td>
+            <td>{{ task.status }}</td>
             <td>
               <div
                 class="btn-group"
@@ -64,21 +64,21 @@
                 <button
                   type="button"
                   class="btn btn-sm btn-outline-info"
-                  ng-click="edit(t)"
+                  ng-click="tc.edit(task)"
                 >
                   <i class="bi bi-pencil"></i>
                 </button>
                 <button
                   type="button"
                   class="btn btn-sm btn-outline-danger"
-                  ng-click="deleteform(t)"
+                  ng-click="tc.deleteform(task)"
                 >
                   <i class="bi bi-trash"></i>
                 </button>
               </div>
             </td>
           </tr>
-          <tr ng-if="tasks.length === 0">
+          <tr ng-if="tc.tasks.length === 0">
             <td class="text-center" colspan="7">No Data Found</td>
           </tr>
         </tbody>
@@ -97,8 +97,8 @@
             <select
               class="form-select"
               id="pagesize"
-              ng-model="pageLimit"
-              ng-click="getAll()"
+              ng-model="tc.pageLimit"
+              ng-click="tc.getAll()"
             >
               <option value="5">5</option>
               <option value="7">7</option>
@@ -106,9 +106,9 @@
             </select>
           </div>
           <label for="pagesize" class="col-md-9 col-form-label">
-            Showing {{ (currentPage - 1) * pageLimit + 1}} - {{ (currentPage *
-            pageLimit) > totalData ? totalData : (currentPage * pageLimit) }} of
-            {{ totalData }} Records
+            Showing {{ (tc.currentPage - 1) * tc.pageLimit + 1}} - {{
+            (tc.currentPage * tc.pageLimit) > tc.totalData ? tc.totalData :
+            (tc.currentPage * tc.pageLimit) }} of {{ tc.totalData }} Records
           </label>
         </div>
       </div>
@@ -120,8 +120,8 @@
           <ul class="pagination justify-content-end">
             <li
               class="page-item"
-              ng-class="{'disabled' : currentPage == 1}"
-              ng-click="changePage(1)"
+              ng-class="{'disabled' : tc.currentPage == 1}"
+              ng-click="tc.changePage(1)"
             >
               <a class="page-link" href="javascript:void(0)"
                 ><span aria-hidden="true">&laquo;</span></a
@@ -129,8 +129,8 @@
             </li>
             <li
               class="page-item"
-              ng-class="{'disabled' : currentPage == 1}"
-              ng-click="changePageArrow('prev')"
+              ng-class="{'disabled' : tc.currentPage == 1}"
+              ng-click="tc.changePageArrow('prev')"
             >
               <a class="page-link" href="javascript:void(0)"
                 ><span aria-hidden="true">&lt;</span></a
@@ -138,15 +138,15 @@
             </li>
             <li
               class="page-item disabled"
-              ng-class="{'notshow' : currentPage == 1 || currentPage == 2 || currentPage == 3}"
+              ng-class="{'notshow' : tc.currentPage == 1 || tc.currentPage == 2 || tc.currentPage == 3}"
             >
               <a class="page-link" href="javascript:void(0)">...</a>
             </li>
             <li
-              ng-repeat="a in range(pageNumber) track by $index"
+              ng-repeat="a in tc.range(tc.pageNumber) track by $index"
               class="page-item"
-              ng-class="{'active' : currentPage == $index + 1, 'notshow' :  currentPage + 1 < $index || currentPage - 3 > $index}"
-              ng-click="changePage($index + 1)"
+              ng-class="{'active' : tc.currentPage == $index + 1, 'notshow' :  tc.currentPage + 1 < $index || tc.currentPage - 3 > $index}"
+              ng-click="tc.changePage($index + 1)"
             >
               <a class="page-link" href="javascript:void(0);"
                 >{{ $index + 1 }}</a
@@ -154,14 +154,14 @@
             </li>
             <li
               class="page-item disabled"
-              ng-class="{'notshow' : currentPage == pageNumber || currentPage == pageNumber -1 || currentPage == pageNumber - 2}"
+              ng-class="{'notshow' : tc.currentPage == tc.pageNumber || tc.currentPage == tc.pageNumber -1 || tc.currentPage == tc.pageNumber - 2}"
             >
               <a class="page-link" href="javascript:void(0)">...</a>
             </li>
             <li
               class="page-item"
-              ng-class="{'disabled' : currentPage >= pageNumber}"
-              ng-click="changePageArrow('next')"
+              ng-class="{'disabled' : tc.currentPage >= tc.pageNumber}"
+              ng-click="tc.changePageArrow('next')"
             >
               <a class="page-link" href="javascript:void(0)"
                 ><span aria-hidden="true">&gt;</span></a
@@ -169,8 +169,8 @@
             </li>
             <li
               class="page-item"
-              ng-class="{'disabled' : currentPage >= pageNumber}"
-              ng-click="changePage(pageNumber)"
+              ng-class="{'disabled' : tc.currentPage >= tc.pageNumber}"
+              ng-click="tc.changePage(tc.pageNumber)"
             >
               <a class="page-link" href="javascript:void(0)"
                 ><span aria-hidden="true">&raquo;</span></a
@@ -185,18 +185,18 @@
   <!------/     Pagination     ------>
 
   <!------     Add/Edit table     ------>
-  <div class="card mt-4" ng-if="tableshow">
-    <div ng-show="!deleteMode">
-      <h5 class="card-header" ng-hide="editMode">Create new task</h5>
-      <h5 class="card-header" ng-show="editMode">Edit task</h5>
+  <div class="card mt-4" ng-if="tc.tableshow">
+    <div ng-show="!tc.deleteMode">
+      <h5 class="card-header" ng-hide="tc.editMode">Create new task</h5>
+      <h5 class="card-header" ng-show="tc.editMode">Edit task</h5>
     </div>
-    <div ng-show="deleteMode">
+    <div ng-show="tc.deleteMode">
       <h5 class="card-header">Are you sure you want to delete this?</h5>
     </div>
     <div class="table-responsive text-nowrap">
-      <form role="form" name="addtaskform" novalidate>
+      <form role="form" name="tc.addtaskform" novalidate>
         <table class="table">
-          <thead class="table-light" ng-show="!deleteMode">
+          <thead class="table-light" ng-show="!tc.deleteMode">
             <tr>
               <th>Name</th>
               <th>Description</th>
@@ -205,7 +205,7 @@
               <th>Status</th>
             </tr>
           </thead>
-          <tbody class="table-border-bottom-0" ng-show="!deleteMode">
+          <tbody class="table-border-bottom-0" ng-show="!tc.deleteMode">
             <tr>
               <td>
                 <input
@@ -215,8 +215,8 @@
                   placeholder="Enter task's name"
                   required
                   class="form-control"
-                  ng-model="task.name"
-                  ng-change="check()"
+                  ng-model="tc.task.name"
+                  ng-change="tc.check()"
                 />
               </td>
               <td>
@@ -227,8 +227,8 @@
                   placeholder="Enter task's description"
                   required
                   class="form-control"
-                  ng-model="task.description"
-                  ng-change="check()"
+                  ng-model="tc.task.description"
+                  ng-change="tc.check()"
                 />
               </td>
               <td>
@@ -237,9 +237,9 @@
                   class="form-select"
                   id="assigner"
                   name="assigner"
-                  ng-model="task.assigner"
-                  ng-change="check()"
-                  ng-options="user.name for user in users"
+                  ng-model="tc.task.assigner"
+                  ng-change="tc.check()"
+                  ng-options="user.name as user.name for user in tc.users"
                 ></select>
               </td>
               <td>
@@ -248,8 +248,8 @@
                   class="form-select"
                   id="type"
                   name="type"
-                  ng-model="task.type"
-                  ng-change="check()"
+                  ng-model="tc.task.type"
+                  ng-change="tc.check()"
                 >
                   <option value="devTask">devTask</option>
                   <option value="Story">Story</option>
@@ -262,8 +262,8 @@
                   class="form-select"
                   id="type"
                   name="type"
-                  ng-model="task.status"
-                  ng-change="check()"
+                  ng-model="tc.task.status"
+                  ng-change="tc.check()"
                 >
                   <option value="Done">Done</option>
                   <option value="In-Progress">In-progress</option>
@@ -276,39 +276,39 @@
             <tr>
               <td colspan="7">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                  <div ng-show="!deleteMode">
-                    <span ng-hide="editMode">
+                  <div ng-show="!tc.deleteMode">
+                    <span ng-hide="tc.editMode">
                       <input
                         type="submit"
                         class="btn btn-primary"
                         value="Create"
-                        ng-disabled="addtaskform.$invalid"
-                        ng-click="add()"
+                        ng-disabled="tc.addtaskform.$invalid"
+                        ng-click="tc.add()"
                       />
                     </span>
-                    <span ng-show="editMode">
+                    <span ng-show="tc.editMode">
                       <input
                         type="submit"
                         class="btn btn-primary"
                         value="Edit"
-                        ng-disabled="addtaskform.$invalid || check()"
-                        ng-click="update()"
+                        ng-disabled="tc.addtaskform.$invalid || tc.check()"
+                        ng-click="tc.update()"
                       />
                     </span>
                   </div>
-                  <div ng-show="deleteMode">
+                  <div ng-show="tc.deleteMode">
                     <input
                       type="submit"
                       class="btn btn-danger"
                       value="Delete"
-                      ng-click="delete()"
+                      ng-click="tc.delete()"
                     />
                   </div>
                   <input
                     type="button"
                     class="btn btn-secondary"
                     value="Cancel"
-                    ng-click="cancel()"
+                    ng-click="tc.cancel()"
                   />
                 </div>
               </td>

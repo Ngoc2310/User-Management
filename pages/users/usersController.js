@@ -1,86 +1,83 @@
 (function () {
   "use strict";
   angular.module("myApp").controller("UserCtrl", [
-    "$scope",
     "userFactory",
     "appFactory",
-    function ($scope, userFactory, appFactory) {
-      $scope.users = [];
-      $scope.user = null;
-      $scope.editMode = false;
-      $scope.deleteMode = false;
+    function (userFactory, appFactory) {
+      var uc = this;
+      uc.users = [];
+      uc.user = null;
+      uc.editMode = false;
+      uc.deleteMode = false;
 
-      $scope.alertMessage = null;
-      $scope.secondsDelay = 2;
+      uc.alertMessage = null;
+      uc.secondsDelay = 2;
 
-      $scope.currentPage = 1;
-      $scope.pageNumber = 0;
-      $scope.pageLimit = "5";
+      uc.currentPage = 1;
+      uc.pageNumber = 0;
+      uc.pageLimit = "5";
 
-      $scope.search = "";
+      uc.search = "";
 
-      $scope.sortBy = "id";
-      $scope.sortOrder = "";
-      $scope.isAsc = true;
+      uc.sortBy = "id";
+      uc.sortOrder = "";
+      uc.isAsc = true;
 
-      $scope.getAll = function () {
+      uc.getAll = function () {
         userFactory
           .getUsers(
-            $scope.currentPage,
-            $scope.pageLimit,
-            $scope.search,
-            $scope.sortBy,
-            $scope.sortOrder
+            uc.currentPage,
+            uc.pageLimit,
+            uc.search,
+            uc.sortBy,
+            uc.sortOrder
           )
           .then(
             function (response) {
-              $scope.users = response.data.items;
+              uc.users = response.data.items;
 
-              $scope.totalData = response.data.count;
-              $scope.pageNumber = appFactory.totalPage(
-                $scope.pageLimit,
-                $scope.totalData
-              );
+              uc.totalData = response.data.count;
+              uc.pageNumber = appFactory.totalPage(uc.pageLimit, uc.totalData);
             },
             function () {
-              $scope.alertText = "An Error has occured while Loading user! ";
-              $scope.alertType = "danger";
+              uc.alertText = "An Error has occured while Loading user! ";
+              uc.alertType = "danger";
 
-              $scope.alertMessage = {
-                type: $scope.alertType,
-                text: $scope.alertText,
-                delay: $scope.secondsDelay,
+              uc.alertMessage = {
+                type: uc.alertType,
+                text: uc.alertText,
+                delay: uc.secondsDelay,
               };
             }
           );
       };
 
-      $scope.sort = function (column) {
-        $scope.sortOrder = $scope.isAsc ? "desc" : "";
-        $scope.isAsc = !$scope.isAsc;
-        $scope.sortBy = column;
-        $scope.getAll();
+      uc.sort = function (column) {
+        uc.sortOrder = uc.isAsc ? "desc" : "";
+        uc.isAsc = !uc.isAsc;
+        uc.sortBy = column;
+        uc.getAll();
       };
 
-      $scope.refresh = function () {
-        $scope.search = "";
-        $scope.getAll();
+      uc.refresh = function () {
+        uc.search = "";
+        uc.getAll();
       };
 
-      $scope.range = function (n) {
+      uc.range = function (n) {
         return new Array(n);
       };
 
       //open add modal when click create button
-      $scope.showadd = function () {
-        $scope.user = null;
-        $scope.editMode = false;
-        $scope.deleteMode = false;
+      uc.showadd = function () {
+        uc.user = null;
+        uc.editMode = false;
+        uc.deleteMode = false;
         $("#userModal").modal("show");
       };
 
       //add user
-      $scope.add = function () {
+      uc.add = function () {
         var currentUser = this.user;
 
         if (
@@ -92,147 +89,147 @@
         )
           userFactory.addUser(currentUser).then(
             function (response) {
-              $scope.editMode = false;
+              uc.editMode = false;
               currentUser.id = response.data;
-              $scope.getAll();
-              $scope.alertText = "Create Contact Successfully";
-              $scope.alertType = "success";
-              $scope.alertMessage = {
-                type: $scope.alertType,
-                text: $scope.alertText,
-                delay: $scope.secondsDelay,
+              uc.getAll();
+              uc.alertText = "Create Contact Successfully";
+              uc.alertType = "success";
+              uc.alertMessage = {
+                type: uc.alertType,
+                text: uc.alertText,
+                delay: uc.secondsDelay,
               };
 
-              $scope.user = null;
-              $scope.adduserform.$setPristine();
+              uc.user = null;
+              uc.adduserform.$setPristine();
               $("#userModal").modal("hide");
             },
             function () {
-              $scope.alertText = "An Error has occured while Creating user! ";
-              $scope.alertType = "danger";
+              uc.alertText = "An Error has occured while Creating user! ";
+              uc.alertType = "danger";
 
-              $scope.alertMessage = {
-                type: $scope.alertType,
-                text: $scope.alertText,
-                delay: $scope.secondsDelay,
+              uc.alertMessage = {
+                type: uc.alertType,
+                text: uc.alertText,
+                delay: uc.secondsDelay,
               };
             }
           );
       };
 
       //open edit modal when click edit button
-      $scope.edit = function (u) {
-        $scope.user = angular.copy(u);
+      uc.edit = function (u) {
+        uc.user = angular.copy(u);
 
         //check if input in edit modal is changed or not
-        $scope.check = function () {
-          if (angular.equals($scope.user, u)) {
+        uc.check = function () {
+          if (angular.equals(uc.user, u)) {
             return true;
           }
           return false;
         };
 
-        $scope.editMode = true;
-        $scope.deleteMode = false;
+        uc.editMode = true;
+        uc.deleteMode = false;
         $("#userModal").modal("show");
       };
 
       //update user
-      $scope.update = function () {
+      uc.update = function () {
         var currentUser = this.user;
 
         userFactory.updateUser(currentUser).then(
           function () {
             currentUser.editMode = false;
-            $scope.getAll();
-            $scope.alertText = "Update Contact Successfully";
-            $scope.alertType = "success";
+            uc.getAll();
+            uc.alertText = "Update Contact Successfully";
+            uc.alertType = "success";
 
-            $scope.alertMessage = {
-              type: $scope.alertType,
-              text: $scope.alertText,
-              delay: $scope.secondsDelay,
+            uc.alertMessage = {
+              type: uc.alertType,
+              text: uc.alertText,
+              delay: uc.secondsDelay,
             };
-            $scope.adduserform.$setPristine();
+            uc.adduserform.$setPristine();
             $("#userModal").modal("hide");
           },
           function () {
-            $scope.alertText = "An Error has occured while Updating user! ";
-            $scope.alertType = "danger";
+            uc.alertText = "An Error has occured while Updating user! ";
+            uc.alertType = "danger";
 
-            $scope.alertMessage = {
-              type: $scope.alertType,
-              text: $scope.alertText,
-              delay: $scope.secondsDelay,
+            uc.alertMessage = {
+              type: uc.alertType,
+              text: uc.alertText,
+              delay: uc.secondsDelay,
             };
           }
         );
       };
 
       //open delete modal when click delete button
-      $scope.deleteform = function (u) {
-        $scope.user = angular.copy(u);
-        $scope.deleteMode = true;
+      uc.deleteform = function (u) {
+        uc.user = angular.copy(u);
+        uc.deleteMode = true;
         $("#userModal").modal("show");
       };
 
       //delete user
-      $scope.delete = function () {
+      uc.delete = function () {
         var currentUser = this.user;
 
         userFactory.deleteUser(currentUser).then(
           function () {
-            $scope.getAll();
-            $scope.alertText = "Delete Contact Successfully";
-            $scope.alertType = "warning";
-            $scope.alertMessage = {
-              type: $scope.alertType,
-              text: $scope.alertText,
-              delay: $scope.secondsDelay,
+            uc.getAll();
+            uc.alertText = "Delete Contact Successfully";
+            uc.alertType = "warning";
+            uc.alertMessage = {
+              type: uc.alertType,
+              text: uc.alertText,
+              delay: uc.secondsDelay,
             };
             $("#userModal").modal("hide");
           },
           function () {
-            $scope.alertText = "An Error has occured while Delete user! ";
-            $scope.alertType = "danger";
+            uc.alertText = "An Error has occured while Delete user! ";
+            uc.alertType = "danger";
 
-            $scope.alertMessage = {
-              type: $scope.alertType,
-              text: $scope.alertText,
-              delay: $scope.secondsDelay,
+            uc.alertMessage = {
+              type: uc.alertType,
+              text: uc.alertText,
+              delay: uc.secondsDelay,
             };
           }
         );
       };
 
-      $scope.cancel = function () {
-        $scope.user = null;
-        $scope.adduserform.$setPristine();
+      uc.cancel = function () {
+        uc.user = null;
+        uc.adduserform.$setPristine();
         $("#userModal").modal("hide");
       };
 
       // previous and next button on pagination
-      $scope.changePageArrow = function (val) {
+      uc.changePageArrow = function (val) {
         if (val === "prev") {
-          if ($scope.currentPage > 1) {
-            $scope.currentPage -= 1;
-            $scope.getAll($scope.currentPage);
+          if (uc.currentPage > 1) {
+            uc.currentPage -= 1;
+            uc.getAll(uc.currentPage);
           }
         } else {
-          if ($scope.currentPage < $scope.pageNumber) {
-            $scope.currentPage += 1;
-            $scope.getAll($scope.currentPage);
+          if (uc.currentPage < uc.pageNumber) {
+            uc.currentPage += 1;
+            uc.getAll(uc.currentPage);
           }
         }
       };
       // change page by number
-      $scope.changePage = function (page) {
-        $scope.currentPage = page;
-        $scope.getAll(page);
+      uc.changePage = function (page) {
+        uc.currentPage = page;
+        uc.getAll(page);
       };
 
       // initialize users data
-      $scope.getAll();
+      uc.getAll();
     },
   ]);
 })();

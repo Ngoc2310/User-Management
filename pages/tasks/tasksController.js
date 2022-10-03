@@ -1,109 +1,105 @@
 (function () {
   "use strict";
   angular.module("myApp").controller("TaskCtrl", [
-    "$scope",
     "taskFactory",
     "appFactory",
     "userFactory",
-    function ($scope, taskFactory, appFactory, userFactory) {
-      $scope.tasks = [];
-      $scope.task = {};
-      $scope.editMode = false;
-      $scope.deleteMode = false;
+    function (taskFactory, appFactory, userFactory) {
+      var tc = this;
+      tc.tasks = [];
+      tc.task = {};
+      tc.editMode = false;
+      tc.deleteMode = false;
 
-      $scope.alertMessage = null;
-      $scope.secondsDelay = 2;
+      tc.alertMessage = null;
+      tc.secondsDelay = 2;
 
-      $scope.currentPage = 1;
-      $scope.pageNumber = 0;
-      $scope.pageLimit = "5";
+      tc.currentPage = 1;
+      tc.pageNumber = 0;
+      tc.pageLimit = "5";
 
-      $scope.search = "";
+      tc.search = "";
 
-      $scope.sortBy = "id";
-      $scope.sortOrder = "";
-      $scope.isAsc = true;
+      tc.sortBy = "id";
+      tc.sortOrder = "";
+      tc.isAsc = true;
 
-      $scope.tableshow = false;
+      tc.tableshow = false;
 
-      $scope.getAll = function () {
+      tc.getAll = function () {
         taskFactory
           .getTasks(
-            $scope.currentPage,
-            $scope.pageLimit,
-            $scope.search,
-            $scope.sortBy,
-            $scope.sortOrder
+            tc.currentPage,
+            tc.pageLimit,
+            tc.search,
+            tc.sortBy,
+            tc.sortOrder
           )
           .then(
             function (response) {
-              $scope.tasks = response.data.items;
+              tc.tasks = response.data.items;
 
-              $scope.totalData = response.data.count;
-              $scope.pageNumber = appFactory.totalPage(
-                $scope.pageLimit,
-                $scope.totalData
-              );
+              tc.totalData = response.data.count;
+              tc.pageNumber = appFactory.totalPage(tc.pageLimit, tc.totalData);
             },
             function () {
-              $scope.alertText = "An Error has occured while Loading task! ";
-              $scope.alertType = "danger";
+              tc.alertText = "An Error has occured while Loading task! ";
+              tc.alertType = "danger";
 
-              $scope.alertMessage = {
-                type: $scope.alertType,
-                text: $scope.alertText,
-                delay: $scope.secondsDelay,
+              tc.alertMessage = {
+                type: tc.alertType,
+                text: tc.alertText,
+                delay: tc.secondsDelay,
               };
             }
           );
       };
 
-      $scope.sort = function (column) {
-        $scope.sortOrder = $scope.isAsc ? "desc" : "";
-        $scope.isAsc = !$scope.isAsc;
-        $scope.sortBy = column;
-        $scope.getAll();
+      tc.sort = function (column) {
+        tc.sortOrder = tc.isAsc ? "desc" : "";
+        tc.isAsc = !tc.isAsc;
+        tc.sortBy = column;
+        tc.getAll();
       };
 
-      $scope.refresh = function () {
-        $scope.search = "";
-        $scope.getAll();
+      tc.refresh = function () {
+        tc.search = "";
+        tc.getAll();
       };
 
-      $scope.range = function (n) {
+      tc.range = function (n) {
         return new Array(n);
       };
 
-      $scope.getUserName = function () {
+      tc.getUsers = function () {
         userFactory.getUsers("", "", "", "", "").then(
           function (response) {
-            $scope.users = response.data.items;
-            console.log($scope.users);
+            tc.users = response.data.items;
           },
           function () {
-            $scope.alertText = "An Error has occured while Loading user! ";
-            $scope.alertType = "danger";
+            tc.alertText = "An Error has occured while Loading user! ";
+            tc.alertType = "danger";
 
-            $scope.alertMessage = {
-              type: $scope.alertType,
-              text: $scope.alertText,
-              delay: $scope.secondsDelay,
+            tc.alertMessage = {
+              type: tc.alertType,
+              text: tc.alertText,
+              delay: tc.secondsDelay,
             };
           }
         );
       };
 
       //open add table when click create button
-      $scope.showadd = function () {
-        $scope.task = {};
-        $scope.editMode = false;
-        $scope.deleteMode = false;
-        $scope.tableshow = true;
-        $scope.getUserName();
+      tc.showadd = function () {
+        tc.task = {};
+        tc.editMode = false;
+        tc.deleteMode = false;
+        tc.tableshow = true;
+        tc.getUsers();
       };
 
       //add task
-      $scope.add = function () {
+      tc.add = function () {
         var currentTask = this.task;
 
         if (
@@ -116,141 +112,142 @@
         )
           taskFactory.addTask(currentTask).then(
             function (response) {
-              $scope.editMode = false;
+              tc.editMode = false;
               currentTask.id = response.data;
-              $scope.alertText = "Create Task Successfully";
-              $scope.alertType = "success";
-              $scope.alertMessage = {
-                type: $scope.alertType,
-                text: $scope.alertText,
-                delay: $scope.secondsDelay,
+              tc.alertText = "Create Task Successfully";
+              tc.alertType = "success";
+              tc.alertMessage = {
+                type: tc.alertType,
+                text: tc.alertText,
+                delay: tc.secondsDelay,
               };
 
-              $scope.task = {};
-              $scope.tableshow = false;
+              tc.task = {};
+              tc.tableshow = false;
             },
             function () {
-              $scope.alertText = "An Error has occured while Creating task! ";
-              $scope.alertType = "danger";
+              tc.alertText = "An Error has occured while Creating task! ";
+              tc.alertType = "danger";
 
-              $scope.alertMessage = {
-                type: $scope.alertType,
-                text: $scope.alertText,
-                delay: $scope.secondsDelay,
+              tc.alertMessage = {
+                type: tc.alertType,
+                text: tc.alertText,
+                delay: tc.secondsDelay,
               };
             }
           );
       };
 
       //open edit table when click edit button
-      $scope.edit = function (t) {
-        $scope.task = angular.copy(t);
+      tc.edit = function (t) {
+        tc.task = angular.copy(t);
 
         //check if input in edit table is changed or not
-        $scope.check = function () {
-          if (angular.equals($scope.task, t)) {
+        tc.check = function () {
+          if (angular.equals(tc.task, t)) {
             return true;
           }
           return false;
         };
-        $scope.editMode = true;
-        $scope.deleteMode = false;
-        $scope.tableshow = true;
-        $scope.getUserName();
+        tc.editMode = true;
+        tc.deleteMode = false;
+        tc.tableshow = true;
+        tc.getUsers();
+        console.log(tc.task);
       };
 
       // update task
-      $scope.update = function () {
+      tc.update = function () {
         var currentTask = this.task;
 
         taskFactory.updateTask(currentTask).then(
           function () {
             currentTask.editMode = false;
-            $scope.getAll();
-            $scope.tableshow = false;
+            tc.getAll();
+            tc.tableshow = false;
 
-            $scope.alertText = "Update Task Successfully";
-            $scope.alertType = "success";
-            $scope.alertMessage = {
-              type: $scope.alertType,
-              text: $scope.alertText,
-              delay: $scope.secondsDelay,
+            tc.alertText = "Update Task Successfully";
+            tc.alertType = "success";
+            tc.alertMessage = {
+              type: tc.alertType,
+              text: tc.alertText,
+              delay: tc.secondsDelay,
             };
           },
           function () {
-            $scope.alertText = "An Error has occured while Updating task! ";
-            $scope.alertType = "danger";
+            tc.alertText = "An Error has occured while Updating task! ";
+            tc.alertType = "danger";
 
-            $scope.alertMessage = {
-              type: $scope.alertType,
-              text: $scope.alertText,
-              delay: $scope.secondsDelay,
+            tc.alertMessage = {
+              type: tc.alertType,
+              text: tc.alertText,
+              delay: tc.secondsDelay,
             };
           }
         );
       };
 
       //open delete table when click delete button
-      $scope.deleteform = function (t) {
-        $scope.task = angular.copy(t);
-        $scope.deleteMode = true;
-        $scope.tableshow = true;
+      tc.deleteform = function (t) {
+        tc.task = angular.copy(t);
+        tc.deleteMode = true;
+        tc.tableshow = true;
       };
 
-      $scope.delete = function () {
+      tc.delete = function () {
         var currentTask = this.task;
 
         taskFactory.deleteTask(currentTask).then(
           function () {
-            $scope.getAll();
-            $scope.tableshow = false;
-            $scope.alertText = "Delete Task Successfully";
-            $scope.alertType = "warning";
-            $scope.alertMessage = {
-              type: $scope.alertType,
-              text: $scope.alertText,
-              delay: $scope.secondsDelay,
+            tc.getAll();
+            tc.tableshow = false;
+            tc.alertText = "Delete Task Successfully";
+            tc.alertType = "warning";
+            tc.alertMessage = {
+              type: tc.alertType,
+              text: tc.alertText,
+              delay: tc.secondsDelay,
             };
           },
           function () {
-            $scope.alertText = "An Error has occured while Delete task! ";
-            $scope.alertType = "danger";
+            tc.alertText = "An Error has occured while Delete task! ";
+            tc.alertType = "danger";
 
-            $scope.alertMessage = {
-              type: $scope.alertType,
-              text: $scope.alertText,
-              delay: $scope.secondsDelay,
+            tc.alertMessage = {
+              type: tc.alertType,
+              text: tc.alertText,
+              delay: tc.secondsDelay,
             };
           }
         );
       };
 
-      $scope.cancel = function () {
-        $scope.task = null;
-        $scope.tableshow = hide;
+      tc.cancel = function () {
+        tc.task = null;
+        tc.tableshow = hide;
       };
 
       // previous and next button on pagination
-      $scope.changePageArrow = function (val) {
+      tc.changePageArrow = function (val) {
         if (val === "prev") {
-          if ($scope.currentPage > 1) {
-            $scope.currentPage -= 1;
-            $scope.getAll($scope.currentPage);
+          if (tc.currentPage > 1) {
+            tc.currentPage -= 1;
+            tc.getAll(tc.currentPage);
           }
         } else {
-          if ($scope.currentPage < $scope.pageNumber) {
-            $scope.currentPage += 1;
-            $scope.getAll($scope.currentPage);
+          if (tc.currentPage < tc.pageNumber) {
+            tc.currentPage += 1;
+            tc.getAll(tc.currentPage);
           }
         }
       };
       // change page by number
-      $scope.changePage = function (page) {
-        $scope.currentPage = page;
-        $scope.getAll(page);
+      tc.changePage = function (page) {
+        tc.currentPage = page;
+        tc.getAll(page);
       };
 
-      $scope.getAll();
+      tc.getAll();
     },
   ]);
 })();

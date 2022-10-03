@@ -5,7 +5,6 @@
     function ($http) {
       var url = "";
       var api = "https://631e9e7f58a1c0fe9f5494b8.mockapi.io/task";
-      var userApi = "https://631e9e7f58a1c0fe9f5494b8.mockapi.io/users";
 
       return {
         getTasks: function (currentPage, pageLimit, search, sortBy, sortOrder) {
