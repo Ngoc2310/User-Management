@@ -1,11 +1,11 @@
 (function () {
   "use strict";
-  angular
-    .module("myApp")
-    .controller("TaskCtrl", function ($scope, userFactory) {
+  angular.module("myApp").controller("TaskCtrl", [
+    "$scope",
+    "taskFactory",
+    function ($scope, taskFactory) {
       $scope.tasks = [];
-      $scope.api = "https://631e9e7f58a1c0fe9f5494b8.mockapi.io/task";
-      $scope.task = null;
+      $scope.task = {};
       $scope.editMode = false;
       $scope.deleteMode = false;
 
@@ -25,8 +25,8 @@
       $scope.tableshow = false;
 
       $scope.getAll = function () {
-        userFactory
-          .getUsers(
+        taskFactory
+          .getTasks(
             $scope.api,
             $scope.currentPage,
             $scope.pageLimit,
@@ -39,7 +39,7 @@
               $scope.tasks = response.data.items;
 
               $scope.totalData = response.data.count;
-              $scope.pageNumber = userFactory.totalPage(
+              $scope.pageNumber = taskFactory.totalPage(
                 $scope.pageLimit,
                 $scope.totalData
               );
@@ -75,7 +75,7 @@
       };
 
       $scope.getUserName = function () {
-        userFactory.getUserName().then(function (response) {
+        taskFactory.getUserName().then(function (response) {
           $scope.username = response.data.items;
           $scope.userNames = $scope.username.map((user) => user.name);
           console.log($scope.userNames);
@@ -84,7 +84,7 @@
 
       //open add table when click create button
       $scope.showadd = function () {
-        $scope.task = null;
+        $scope.task = {};
         $scope.editMode = false;
         $scope.deleteMode = false;
         $scope.tableshow = true;
@@ -103,7 +103,7 @@
           currentTask.type != null &&
           currentTask.status != null
         )
-          userFactory.addUser($scope.api, currentTask).then(
+          taskFactory.addTask($scope.api, currentTask).then(
             function (response) {
               $scope.editMode = false;
               currentTask.id = response.data;
@@ -115,7 +115,7 @@
                 delay: $scope.secondsDelay,
               };
 
-              $scope.task = null;
+              $scope.task = {};
               $scope.tableshow = false;
             },
             function () {
@@ -152,7 +152,7 @@
       $scope.update = function () {
         var currentTask = this.task;
 
-        userFactory.updateUser($scope.api, currentTask).then(
+        taskFactory.updateTask($scope.api, currentTask).then(
           function () {
             currentTask.editMode = false;
             $scope.getAll();
@@ -189,7 +189,7 @@
       $scope.delete = function () {
         var currentTask = this.task;
 
-        userFactory.deleteUser($scope.api, currentTask).then(
+        taskFactory.deleteTask($scope.api, currentTask).then(
           function () {
             $scope.getAll();
             $scope.tableshow = false;
@@ -240,5 +240,6 @@
       };
 
       $scope.getAll();
-    });
+    },
+  ]);
 })();

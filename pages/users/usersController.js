@@ -1,8 +1,9 @@
 (function () {
   "use strict";
-  angular
-    .module("myApp")
-    .controller("UserCtrl", function ($scope, userFactory) {
+  angular.module("myApp").controller("UserCtrl", [
+    "$scope",
+    "userFactory",
+    function ($scope, userFactory) {
       $scope.users = [];
       $scope.api = "https://631e9e7f58a1c0fe9f5494b8.mockapi.io/users";
       $scope.user = null;
@@ -236,5 +237,6 @@
 
       // initialize users data
       $scope.getAll();
-    });
+    },
+  ]);
 })();

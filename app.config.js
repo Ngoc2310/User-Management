@@ -7,8 +7,8 @@
       $locationProvider.html5Mode(true);
       $routeProvider
         .when("/", {
-          controller: "UserCtrl",
-          templateUrl: "pages/users/users.html",
+          controller: "TaskCtrl",
+          templateUrl: "pages/tasks/tasks.html",
         })
         .when("/users", {
           controller: "UserCtrl",
