@@ -239,9 +239,8 @@
                   name="assigner"
                   ng-model="task.assigner"
                   ng-change="check()"
-                >
-                  <option ng-repeat="name in userNames">{{name}}</option>
-                </select>
+                  ng-options="user.name for user in users"
+                ></select>
               </td>
               <td>
                 <select

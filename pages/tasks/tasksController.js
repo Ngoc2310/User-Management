@@ -27,7 +27,6 @@
       $scope.getAll = function () {
         taskFactory
           .getTasks(
-            $scope.api,
             $scope.currentPage,
             $scope.pageLimit,
             $scope.search,
@@ -58,7 +57,6 @@
       };
 
       $scope.sort = function (column) {
-        console.log(column);
         $scope.sortOrder = $scope.isAsc ? "desc" : "";
         $scope.isAsc = !$scope.isAsc;
         $scope.sortBy = column;
@@ -76,9 +74,7 @@
 
       $scope.getUserName = function () {
         taskFactory.getUserName().then(function (response) {
-          $scope.username = response.data.items;
-          $scope.userNames = $scope.username.map((user) => user.name);
-          console.log($scope.userNames);
+          $scope.users = response.data.items;
         });
       };
 
@@ -103,7 +99,7 @@
           currentTask.type != null &&
           currentTask.status != null
         )
-          taskFactory.addTask($scope.api, currentTask).then(
+          taskFactory.addTask(currentTask).then(
             function (response) {
               $scope.editMode = false;
               currentTask.id = response.data;
@@ -152,7 +148,7 @@
       $scope.update = function () {
         var currentTask = this.task;
 
-        taskFactory.updateTask($scope.api, currentTask).then(
+        taskFactory.updateTask(currentTask).then(
           function () {
             currentTask.editMode = false;
             $scope.getAll();
@@ -189,7 +185,7 @@
       $scope.delete = function () {
         var currentTask = this.task;
 
-        taskFactory.deleteTask($scope.api, currentTask).then(
+        taskFactory.deleteTask(currentTask).then(
           function () {
             $scope.getAll();
             $scope.tableshow = false;

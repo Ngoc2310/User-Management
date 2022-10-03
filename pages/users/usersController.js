@@ -5,7 +5,6 @@
     "userFactory",
     function ($scope, userFactory) {
       $scope.users = [];
-      $scope.api = "https://631e9e7f58a1c0fe9f5494b8.mockapi.io/users";
       $scope.user = null;
       $scope.editMode = false;
       $scope.deleteMode = false;
@@ -26,7 +25,6 @@
       $scope.getAll = function () {
         userFactory
           .getUsers(
-            $scope.api,
             $scope.currentPage,
             $scope.pageLimit,
             $scope.search,
@@ -94,7 +92,7 @@
           currentUser.phone &&
           currentUser.email
         )
-          userFactory.addUser($scope.api, currentUser).then(
+          userFactory.addUser(currentUser).then(
             function (response) {
               $scope.editMode = false;
               currentUser.id = response.data;
@@ -145,7 +143,7 @@
       $scope.update = function () {
         var currentUser = this.user;
 
-        userFactory.updateUser($scope.api, currentUser).then(
+        userFactory.updateUser(currentUser).then(
           function () {
             currentUser.editMode = false;
             $scope.getAll();
@@ -184,7 +182,7 @@
       $scope.delete = function () {
         var currentUser = this.user;
 
-        userFactory.deleteUser($scope.api, currentUser).then(
+        userFactory.deleteUser(currentUser).then(
           function () {
             $scope.getAll();
             $scope.alertText = "Delete Contact Successfully";
