@@ -3,7 +3,8 @@
   angular.module("myApp").controller("UserCtrl", [
     "$scope",
     "userFactory",
-    function ($scope, userFactory) {
+    "appFactory",
+    function ($scope, userFactory, appFactory) {
       $scope.users = [];
       $scope.user = null;
       $scope.editMode = false;
@@ -36,12 +37,10 @@
               $scope.users = response.data.items;
 
               $scope.totalData = response.data.count;
-              $scope.pageNumber = userFactory.totalPage(
+              $scope.pageNumber = appFactory.totalPage(
                 $scope.pageLimit,
                 $scope.totalData
               );
-
-              console.log(response.data.items);
             },
             function () {
               $scope.alertText = "An Error has occured while Loading user! ";
@@ -57,7 +56,6 @@
       };
 
       $scope.sort = function (column) {
-        console.log(column);
         $scope.sortOrder = $scope.isAsc ? "desc" : "";
         $scope.isAsc = !$scope.isAsc;
         $scope.sortBy = column;

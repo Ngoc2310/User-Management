@@ -37,10 +37,7 @@
           url = api + "/" + user.id;
           return $http.put(url, user);
         },
-        totalPage: function (pageSize, totalRecord) {
-          return Math.ceil(totalRecord / pageSize);
-        },
       };
     },
   ]);
-});
+})();

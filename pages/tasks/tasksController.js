@@ -3,7 +3,9 @@
   angular.module("myApp").controller("TaskCtrl", [
     "$scope",
     "taskFactory",
-    function ($scope, taskFactory) {
+    "appFactory",
+    "userFactory",
+    function ($scope, taskFactory, appFactory, userFactory) {
       $scope.tasks = [];
       $scope.task = {};
       $scope.editMode = false;
@@ -38,7 +40,7 @@
               $scope.tasks = response.data.items;
 
               $scope.totalData = response.data.count;
-              $scope.pageNumber = taskFactory.totalPage(
+              $scope.pageNumber = appFactory.totalPage(
                 $scope.pageLimit,
                 $scope.totalData
               );
@@ -73,9 +75,22 @@
       };
 
       $scope.getUserName = function () {
-        taskFactory.getUserName().then(function (response) {
-          $scope.users = response.data.items;
-        });
+        userFactory.getUsers("", "", "", "", "").then(
+          function (response) {
+            $scope.users = response.data.items;
+            console.log($scope.users);
+          },
+          function () {
+            $scope.alertText = "An Error has occured while Loading user! ";
+            $scope.alertType = "danger";
+
+            $scope.alertMessage = {
+              type: $scope.alertType,
+              text: $scope.alertText,
+              delay: $scope.secondsDelay,
+            };
+          }
+        );
       };
 
       //open add table when click create button

@@ -38,15 +38,7 @@
           url = api + "/" + task.id;
           return $http.put(url, task);
         },
-
-        getUserName: function () {
-          url = userApi;
-          return $http.post(url);
-        },
-        totalPage: function (pageSize, totalRecord) {
-          return Math.ceil(totalRecord / pageSize);
-        },
       };
     },
   ]);
-});
+})();
