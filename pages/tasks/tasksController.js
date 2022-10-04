@@ -21,7 +21,7 @@
 
       tc.search = "";
 
-      tc.sortBy = "id";
+      tc.sortBy = "";
       tc.sortOrder = "";
       tc.isAsc = true;
 
@@ -61,6 +61,7 @@
         tc.isAsc = !tc.isAsc;
         tc.sortBy = column;
         tc.getAll();
+        console.log(column);
       };
 
       tc.refresh = function () {
@@ -225,7 +226,7 @@
 
       tc.cancel = function () {
         tc.task = null;
-        tc.tableshow = hide;
+        tc.tableshow = false;
       };
 
       // previous and next button on pagination

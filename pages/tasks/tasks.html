@@ -37,7 +37,7 @@
       <table class="table table-striped">
         <thead class="table-light">
           <tr>
-            <th ng-click="tc.sort('id')">ID</th>
+            <th ng-click="tc.sort('taskId')">ID</th>
             <th ng-click="tc.sort('name')">Name</th>
             <th ng-click="tc.sort('description')">Description</th>
             <th ng-click="tc.sort('assigner')">Assigner</th>
@@ -49,7 +49,7 @@
         <tbody class="table-border-bottom-0">
           <!-- Tasks list -->
           <tr ng-repeat="task in tc.tasks | orderBy:tc.sortBy:tc.sortOrder">
-            <td>{{ task.id }}</td>
+            <td>{{ task.taskId }}</td>
             <td>{{ task.name }}</td>
             <td>{{ task.description }}</td>
             <td>{{ task.assigner }}</td>
