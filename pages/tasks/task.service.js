@@ -7,6 +7,7 @@
       var api = "https://631e9e7f58a1c0fe9f5494b8.mockapi.io/task";
 
       return {
+        inputTask: {},
         getTasks: function (currentPage, pageLimit, search, sortBy, sortOrder) {
           url =
             api +

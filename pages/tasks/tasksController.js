@@ -4,10 +4,11 @@
     "taskFactory",
     "appFactory",
     "userFactory",
+    "$route",
     function (taskFactory, appFactory, userFactory) {
       var tc = this;
       tc.tasks = [];
-      tc.task = {};
+      tc.task = taskFactory.inputTask;
       tc.editMode = false;
       tc.deleteMode = false;
 
@@ -71,7 +72,7 @@
         return new Array(n);
       };
 
-      tc.getUsers = function () {
+      tc.getusers = function () {
         userFactory.getUsers("", "", "", "", "").then(
           function (response) {
             tc.users = response.data.items;
@@ -91,11 +92,11 @@
 
       //open add table when click create button
       tc.showadd = function () {
-        tc.task = {};
+        tc.task = taskFactory.inputTask;
         tc.editMode = false;
         tc.deleteMode = false;
         tc.tableshow = true;
-        tc.getUsers();
+        tc.getusers();
       };
 
       //add task
@@ -152,7 +153,7 @@
         tc.editMode = true;
         tc.deleteMode = false;
         tc.tableshow = true;
-        tc.getUsers();
+        tc.getusers();
         console.log(tc.task);
       };
 
