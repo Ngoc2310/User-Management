@@ -1,0 +1,74 @@
+<!-- <div class="input-group mt-3">
+  <button
+    class="btn btn-outline-primary"
+    type="button"
+    id="button-addon1"
+    ng-click="tl.refresh()"
+    ng-if="tl.search"
+  >
+    <i class="bi bi-arrow-clockwise"></i>
+  </button>
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Type any to search"
+    ng-model="tl.search"
+    ng-keyup="tl.getAll()"
+  />
+</div> -->
+
+<!------     Tasks Table     ------>
+<div class="card mt-3">
+  <div class="table-responsive text-nowrap">
+    <table class="table table-striped">
+      <thead class="table-light">
+        <tr>
+          <th ng-click="tl.sort('taskId')">ID</th>
+          <th ng-click="tl.sort('name')">Name</th>
+          <th ng-click="tl.sort('description')">Description</th>
+          <th ng-click="tl.sort('assigner')">Assigner</th>
+          <th ng-click="tl.sort('type')">Type</th>
+          <th ng-click="tl.sort('status')">Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody class="table-border-bottom-0">
+        <!-- Tasks list -->
+        <tr ng-repeat="task in tl.tasks | orderBy:tl.sortBy:tl.sortOrder">
+          <td>{{ task.taskId }}</td>
+          <td>{{ task.name }}</td>
+          <td>{{ task.description }}</td>
+          <td>{{ task.assigner }}</td>
+          <td>{{ task.type }}</td>
+          <td>{{ task.status }}</td>
+          <td>
+            <div
+              class="btn-group"
+              role="group"
+              aria-label="Basic outlined example"
+            >
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-info"
+                ng-click="tl.editTask(task)"
+              >
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-danger"
+                ng-click="tl.delete(task)"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr ng-if="tl.tasks.length === 0">
+          <td class="text-center" colspan="7">No Data Found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!------/     Tasks Table     ------>

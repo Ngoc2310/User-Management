@@ -7,7 +7,7 @@
       $locationProvider.html5Mode(true);
       $routeProvider
         .when("/", {
-          controller: "TaskCtrl as tc",
+          controller: "TaskCtrl",
           templateUrl: "pages/tasks/tasks.html",
         })
         .when("/users", {
@@ -15,7 +15,7 @@
           templateUrl: "pages/users/users.html",
         })
         .when("/tasks", {
-          controller: "TaskCtrl as tc",
+          controller: "TaskCtrl",
           templateUrl: "pages/tasks/tasks.html",
         });
     },
