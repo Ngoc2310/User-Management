@@ -19,6 +19,9 @@
       tl.sortOrder = "";
       tl.isAsc = true;
 
+      tl.alertMessage = null;
+      tl.secondsDelay = 2;
+
       tl.getAll = function () {
         taskService
           .tasks(
@@ -80,11 +83,42 @@
 
       tl.editTask = function (task) {
         tl.data.currentView = taskService.viewMode.add;
-        tl.data.currentModel = task;
+        tl.data.currentModel = angular.copy(task);
       };
 
-      tl.delete = function (task) {
-        tl.data.currentModel = task;
+      tl.delete = function (id) {
+        tl.data.currentModel = id;
+        console.log(tl.data.currentModel);
+        $("#taskModal").modal("show");
+      };
+
+      tl.deleteTask = function () {
+        var currentTask = tl.data.currentModel;
+        console.log(currentTask);
+
+        taskService.deleteTask(currentTask).then(
+          function () {
+            tl.getAll();
+            tl.alertText = "Delete Task Stlcessfully";
+            tl.alertType = "warning";
+            tl.alertMessage = {
+              type: tl.alertType,
+              text: tl.alertText,
+              delay: tl.secondsDelay,
+            };
+            $("#taskModal").modal("hide");
+          },
+          function () {
+            tl.alertText = "An Error has occured while Delete task! ";
+            tl.alertType = "danger";
+
+            tl.alertMessage = {
+              type: tl.alertType,
+              text: tl.alertText,
+              delay: tl.secondsDelay,
+            };
+          }
+        );
       };
     },
   ]);

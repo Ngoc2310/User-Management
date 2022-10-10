@@ -9,6 +9,7 @@
     tc.data = taskService.data;
     tc.addNewTask = function () {
       tc.data.currentView = taskService.viewMode.add;
+      tc.data.currentModel = {};
       // console.log(tc.data.currentView);
     };
   }

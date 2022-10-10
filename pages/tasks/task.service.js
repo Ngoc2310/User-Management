@@ -12,8 +12,8 @@
       srv.viewMode = initViewMode();
 
       srv.tasks = getTasks;
-      srv.createTask = addTask;
-      srv.editTask = updateTask;
+      srv.createTask = createTask;
+      srv.updateTask = updateTask;
       srv.deleteTask = deleteTask;
 
       function initDefaultCache() {
@@ -54,7 +54,7 @@
         return $http.get(url);
       }
 
-      function addTask(task) {
+      function createTask(task) {
         url = api;
         return $http.post(url, task);
       }
@@ -64,8 +64,8 @@
         return $http.put(url, task);
       }
 
-      function deleteTask(task) {
-        url = api + "/" + task.id;
+      function deleteTask(id) {
+        url = api + "/" + id;
         return $http.delete(url);
       }
 

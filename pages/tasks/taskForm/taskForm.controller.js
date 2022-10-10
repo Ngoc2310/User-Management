@@ -35,7 +35,24 @@
         at.data.currentView = taskService.viewMode.main;
         at.data.currentModel = {};
       }
-      function createNewTask() {}
+
+      function createNewTask() {
+        var currentTask = at.data.currentModel;
+        console.log("submit");
+        if (
+          currentTask != null &&
+          currentTask.name != null &&
+          currentTask.assigner != null &&
+          currentTask.type != null &&
+          currentTask.status != null
+        ) {
+          taskService.createTask(currentTask).then(function (response) {
+            currentTask.id = response.data;
+            console.log(currentTask);
+            at.data.currentView = taskService.viewMode.main;
+          });
+        }
+      }
     },
   ]);
 })();
