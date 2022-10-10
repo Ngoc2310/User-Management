@@ -11,10 +11,10 @@
       srv.data = initDefaultCache();
       srv.viewMode = initViewMode();
 
-      srv.tasks = getTasks();
-      // srv.createTask = addTask();
-      // srv.editTask = updateTask();
-      // srv.deleteTask = deleteTask();
+      srv.tasks = getTasks;
+      srv.createTask = addTask;
+      srv.editTask = updateTask;
+      srv.deleteTask = deleteTask;
 
       function initDefaultCache() {
         return {
@@ -54,20 +54,20 @@
         return $http.get(url);
       }
 
-      // function addTask(task) {
-      //   url = api;
-      //   return $http.post(url, task);
-      // }
+      function addTask(task) {
+        url = api;
+        return $http.post(url, task);
+      }
 
-      // function updateTask(task) {
-      //   url = api + "/" + task.id;
-      //   return $http.put(url, task);
-      // }
+      function updateTask(task) {
+        url = api + "/" + task.id;
+        return $http.put(url, task);
+      }
 
-      // function deleteTask(task) {
-      //   url = api + "/" + task.id;
-      //   return $http.delete(url);
-      // }
+      function deleteTask(task) {
+        url = api + "/" + task.id;
+        return $http.delete(url);
+      }
 
       return srv;
     },

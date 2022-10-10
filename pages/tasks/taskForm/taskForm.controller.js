@@ -5,6 +5,10 @@
     "taskService",
     function (userFactory, taskService) {
       var at = this;
+      at.getusers = getusers;
+      at.data = taskService.data;
+      at.cancel = cancel;
+      at.createNewTask = createNewTask;
       at.types = [
         { id: "1", name: "Dev Task", value: "devTask" },
         { id: "2", name: "Story", value: "story" },
@@ -16,24 +20,22 @@
         { id: "3", name: "To do", value: "todo" },
       ];
 
-      at.getusers = function () {
+      getusers();
+
+      function getusers() {
         userFactory.getUsers("", "", "", "", "").then(
           function (response) {
             at.users = response.data.items;
           },
           function () {}
         );
-      };
+      }
 
-      at.getusers();
-
-      at.data = taskService.data;
-
-      at.cancel = function () {
+      function cancel() {
         at.data.currentView = taskService.viewMode.main;
         at.data.currentModel = {};
-      };
-      at.createNewTask = function () {};
+      }
+      function createNewTask() {}
     },
   ]);
 })();
