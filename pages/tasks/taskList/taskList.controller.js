@@ -7,7 +7,7 @@
 
     function ($scope, taskService, appFactory) {
       var tl = this;
-      tl.data = taskService.data;
+      tl.data = taskService.srv.data;
       tl.dataParent = $scope.data || {};
       tl.currentPage = 1;
       tl.pageNumber = 0;
@@ -32,7 +32,7 @@
             function (response) {
               tl.tasks = response.data.items;
 
-              tl.totalData = response.data.countl;
+              tl.totalData = response.data.count;
               tl.pageNumber = appFactory.totalPage(tl.pageLimit, tl.totalData);
             },
             function () {}
@@ -79,7 +79,7 @@
       tl.getAll();
 
       tl.editTask = function (task) {
-        tl.data.currentView = taskService.viewMode.add;
+        tl.data.currentView = taskService.srv.viewMode.add;
         tl.data.currentModel = task;
       };
 

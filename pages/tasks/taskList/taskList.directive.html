@@ -1,4 +1,4 @@
-<!-- <div class="input-group mt-3">
+<div class="input-group mt-3">
   <button
     class="btn btn-outline-primary"
     type="button"
@@ -15,7 +15,7 @@
     ng-model="tl.search"
     ng-keyup="tl.getAll()"
   />
-</div> -->
+</div>
 
 <!------     Tasks Table     ------>
 <div class="card mt-3">
@@ -72,3 +72,98 @@
   </div>
 </div>
 <!------/     Tasks Table     ------>
+
+<!------     Pagination     ------>
+<div class="mt-4">
+  <div class="row">
+    <!------     Show records     ------>
+    <div class="col-sm-12 col-md-6">
+      <div class="mb-3 row">
+        <div class="col-md-3">
+          <select
+            class="form-select"
+            id="pagesize"
+            ng-model="tl.pageLimit"
+            ng-click="tl.getAll()"
+          >
+            <option value="5">5</option>
+            <option value="7">7</option>
+            <option value="10">10</option>
+          </select>
+        </div>
+        <label for="pagesize" class="col-md-9 col-form-label">
+          Showing {{ (tl.currentPage - 1) * tl.pageLimit + 1}} - {{
+          (tl.currentPage * tl.pageLimit) > tl.totalData ? tl.totalData :
+          (tl.currentPage * tl.pageLimit) }} of {{ tl.totalData }} Records
+        </label>
+      </div>
+    </div>
+    <!------/     Show records     ------>
+
+    <!------     Pagination Number     ------>
+    <div class="col-sm-12 col-md-6">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-end">
+          <li
+            class="page-item"
+            ng-class="{'disabled' : tl.currentPage == 1}"
+            ng-click="tl.changePage(1)"
+          >
+            <a class="page-link" href="javascript:void(0)"
+              ><span aria-hidden="true">&laquo;</span></a
+            >
+          </li>
+          <li
+            class="page-item"
+            ng-class="{'disabled' : tl.currentPage == 1}"
+            ng-click="tl.changePageArrow('prev')"
+          >
+            <a class="page-link" href="javascript:void(0)"
+              ><span aria-hidden="true">&lt;</span></a
+            >
+          </li>
+          <li
+            class="page-item disabled"
+            ng-class="{'notshow' : tl.currentPage == 1 || tl.currentPage == 2 || tl.currentPage == 3}"
+          >
+            <a class="page-link" href="javascript:void(0)">...</a>
+          </li>
+          <li
+            ng-repeat="a in tl.range(tl.pageNumber) track by $index"
+            class="page-item"
+            ng-class="{'active' : tl.currentPage == $index + 1, 'notshow' :  tl.currentPage + 1 < $index || tl.currentPage - 3 > $index}"
+            ng-click="tl.changePage($index + 1)"
+          >
+            <a class="page-link" href="javascript:void(0);">{{ $index + 1 }}</a>
+          </li>
+          <li
+            class="page-item disabled"
+            ng-class="{'notshow' : tl.currentPage == tl.pageNumber || tl.currentPage == tl.pageNumber -1 || tl.currentPage == tl.pageNumber - 2}"
+          >
+            <a class="page-link" href="javascript:void(0)">...</a>
+          </li>
+          <li
+            class="page-item"
+            ng-class="{'disabled' : tl.currentPage >= tl.pageNumber}"
+            ng-click="tl.changePageArrow('next')"
+          >
+            <a class="page-link" href="javascript:void(0)"
+              ><span aria-hidden="true">&gt;</span></a
+            >
+          </li>
+          <li
+            class="page-item"
+            ng-class="{'disabled' : tl.currentPage >= tl.pageNumber}"
+            ng-click="tl.changePage(tl.pageNumber)"
+          >
+            <a class="page-link" href="javascript:void(0)"
+              ><span aria-hidden="true">&raquo;</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <!------/     Pagination Number     ------>
+  </div>
+</div>
+<!------/     Pagination     ------>

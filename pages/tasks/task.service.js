@@ -51,20 +51,20 @@
           return $http.get(url);
         },
 
-        // addTask: function (task) {
-        //   url = api;
-        //   return $http.post(url, task);
-        // },
+        addTask: function (task) {
+          url = api;
+          return $http.post(url, task);
+        },
 
-        // deleteTask: function (task) {
-        //   url = api + "/" + task.id;
-        //   return $http.delete(url);
-        // },
+        deleteTask: function (task) {
+          url = api + "/" + task.id;
+          return $http.delete(url);
+        },
 
-        // updateTask: function (task) {
-        //   url = api + "/" + task.id;
-        //   return $http.put(url, task);
-        // },
+        updateTask: function (task) {
+          url = api + "/" + task.id;
+          return $http.put(url, task);
+        },
       };
     },
   ]);
