@@ -7,7 +7,7 @@
 
     function ($scope, taskService, appFactory) {
       var tl = this;
-      tl.data = taskService.srv.data;
+      tl.data = taskService.data;
       tl.dataParent = $scope.data || {};
       tl.currentPage = 1;
       tl.pageNumber = 0;
@@ -21,7 +21,7 @@
 
       tl.getAll = function () {
         taskService
-          .getTasks(
+          .tasks(
             tl.currentPage,
             tl.pageLimit,
             tl.search,
@@ -79,7 +79,7 @@
       tl.getAll();
 
       tl.editTask = function (task) {
-        tl.data.currentView = taskService.srv.viewMode.add;
+        tl.data.currentView = taskService.viewMode.add;
         tl.data.currentModel = task;
       };
 

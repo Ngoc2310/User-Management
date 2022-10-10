@@ -11,6 +11,11 @@
       srv.data = initDefaultCache();
       srv.viewMode = initViewMode();
 
+      srv.tasks = getTasks();
+      // srv.createTask = addTask();
+      // srv.editTask = updateTask();
+      // srv.deleteTask = deleteTask();
+
       function initDefaultCache() {
         return {
           currentView: viewMode.main,
@@ -33,39 +38,38 @@
         };
       }
 
-      return {
-        srv,
-        getTasks: function (currentPage, pageLimit, search, sortBy, sortOrder) {
-          url =
-            api +
-            "?page=" +
-            currentPage +
-            "&limit=" +
-            pageLimit +
-            "&search=" +
-            search +
-            "&sortBy=" +
-            sortBy +
-            "&order=" +
-            sortOrder;
-          return $http.get(url);
-        },
+      function getTasks(currentPage, pageLimit, search, sortBy, sortOrder) {
+        url =
+          api +
+          "?page=" +
+          currentPage +
+          "&limit=" +
+          pageLimit +
+          "&search=" +
+          search +
+          "&sortBy=" +
+          sortBy +
+          "&order=" +
+          sortOrder;
+        return $http.get(url);
+      }
 
-        addTask: function (task) {
-          url = api;
-          return $http.post(url, task);
-        },
+      // function addTask(task) {
+      //   url = api;
+      //   return $http.post(url, task);
+      // }
 
-        deleteTask: function (task) {
-          url = api + "/" + task.id;
-          return $http.delete(url);
-        },
+      // function updateTask(task) {
+      //   url = api + "/" + task.id;
+      //   return $http.put(url, task);
+      // }
 
-        updateTask: function (task) {
-          url = api + "/" + task.id;
-          return $http.put(url, task);
-        },
-      };
+      // function deleteTask(task) {
+      //   url = api + "/" + task.id;
+      //   return $http.delete(url);
+      // }
+
+      return srv;
     },
   ]);
 })();

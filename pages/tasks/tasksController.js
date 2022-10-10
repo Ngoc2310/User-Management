@@ -6,16 +6,9 @@
 
   function taskController(taskService, userFactory) {
     var tc = this;
-    tc.users = [];
-    tc.data = taskService.srv.data;
-    tc.getusers = function () {
-      userFactory.getUsers("", "", "", "", "").then(function (response) {
-        tc.users = response.data.items;
-      });
-    };
+    tc.data = taskService.data;
     tc.addNewTask = function () {
-      tc.data.currentView = taskService.srv.viewMode.add;
-      console.log(tc.users);
+      tc.data.currentView = taskService.viewMode.add;
     };
   }
 })();
