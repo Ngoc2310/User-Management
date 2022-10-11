@@ -28,13 +28,18 @@
           main: {
             name: "main",
             url: "pages/tasks/taskList/taskList.html",
+            editMode: false,
           },
           add: {
             name: "add",
             url: "pages/tasks/taskForm/taskForm.html",
           },
           result: {},
-          edit: {},
+          edit: {
+            name: "edit",
+            url: "pages/tasks/taskForm/taskForm.html",
+            editMode: true,
+          },
         };
       }
 

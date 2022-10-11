@@ -19,9 +19,6 @@
       tl.sortOrder = "";
       tl.isAsc = true;
 
-      tl.alertMessage = null;
-      tl.secondsDelay = 2;
-
       tl.getAll = function () {
         taskService
           .tasks(
@@ -82,7 +79,7 @@
       tl.getAll();
 
       tl.editTask = function (task) {
-        tl.data.currentView = taskService.viewMode.add;
+        tl.data.currentView = taskService.viewMode.edit;
         tl.data.currentModel = angular.copy(task);
       };
 
@@ -99,25 +96,10 @@
         taskService.deleteTask(currentTask).then(
           function () {
             tl.getAll();
-            tl.alertText = "Delete Task Stlcessfully";
-            tl.alertType = "warning";
-            tl.alertMessage = {
-              type: tl.alertType,
-              text: tl.alertText,
-              delay: tl.secondsDelay,
-            };
+
             $("#taskModal").modal("hide");
           },
-          function () {
-            tl.alertText = "An Error has occured while Delete task! ";
-            tl.alertType = "danger";
-
-            tl.alertMessage = {
-              type: tl.alertType,
-              text: tl.alertText,
-              delay: tl.secondsDelay,
-            };
-          }
+          function () {}
         );
       };
     },

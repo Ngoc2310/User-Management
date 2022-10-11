@@ -29,6 +29,7 @@
           },
           function () {}
         );
+        console.log(at.data.currentModel.id);
       }
 
       function cancel() {
@@ -38,17 +39,23 @@
 
       function createNewTask() {
         var currentTask = at.data.currentModel;
-        console.log("submit");
-        if (
-          currentTask != null &&
-          currentTask.name != null &&
-          currentTask.assigner != null &&
-          currentTask.type != null &&
-          currentTask.status != null
-        ) {
-          taskService.createTask(currentTask).then(function (response) {
-            currentTask.id = response.data;
-            console.log(currentTask);
+        if (currentTask.id == null) {
+          console.log(currentTask);
+          if (
+            currentTask != null &&
+            currentTask.name != null &&
+            currentTask.assigner != null &&
+            currentTask.type != null &&
+            currentTask.status != null
+          ) {
+            taskService.createTask(currentTask).then(function (response) {
+              currentTask.id = response.data;
+              console.log(currentTask);
+              at.data.currentView = taskService.viewMode.main;
+            });
+          }
+        } else {
+          taskService.updateTask(currentTask).then(function () {
             at.data.currentView = taskService.viewMode.main;
           });
         }
